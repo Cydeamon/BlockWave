@@ -1,7 +1,8 @@
 extends Node2D
 
 func _ready():
-	pass # Replace with function body.
+	init_menu()
+	
 
 func _on_menu_options_item_activated(index:int):
 	print("Selected: " + $Menu/menu_options.get_item_text(index))
@@ -13,6 +14,13 @@ func _on_menu_options_item_activated(index:int):
 		pass
 	elif itemText == "Exit":
 		get_tree().quit()
+
+
+func init_menu():
+	$Menu.visible = true
+	$Menu/menu_options.select(0)
+	$Menu/menu_options.grab_focus()
+
 
 func start_game():
 	$Menu.visible = false

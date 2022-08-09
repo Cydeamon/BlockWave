@@ -42,7 +42,7 @@ script = ExtResource( 27 )
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 position = Vector2( 960, 540 )
 frames = SubResource( 1 )
-frame = 18
+frame = 3
 playing = true
 
 [node name="Menu" type="Node2D" parent="."]
@@ -70,7 +70,11 @@ margin_right = 769.0
 margin_bottom = 757.5
 rect_clip_content = false
 theme = ExtResource( 1 )
+custom_colors/font_color_selected = Color( 0.921569, 0, 1, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 items = [ "Start game", null, false, "Settings", null, false, "Exit", null, false ]
 allow_reselect = true
+
+[node name="Game" type="Node2D" parent="."]
 
 [connection signal="item_activated" from="Menu/menu_options" to="." method="_on_menu_options_item_activated"]
