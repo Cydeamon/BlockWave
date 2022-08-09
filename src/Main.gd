@@ -49,3 +49,7 @@ func _unhandled_input(event):
 		$MusicPlayer.play()
 	elif !menu_mode && event.is_action_pressed("ui_cancel"):
 		init_menu()
+
+		
+func _on_MusicPlayer_finished():
+	$MusicPlayer.play(0)

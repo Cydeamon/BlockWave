@@ -45,7 +45,7 @@ script = ExtResource( 27 )
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 position = Vector2( 960, 540 )
 frames = SubResource( 1 )
-frame = 12
+frame = 8
 playing = true
 
 [node name="Game" type="Node2D" parent="."]
@@ -100,3 +100,4 @@ autoplay = true
 [node name="SoundsPlayer" type="AudioStreamPlayer" parent="."]
 
 [connection signal="item_activated" from="Menu/menu_options" to="." method="_on_menu_options_item_activated"]
+[connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]
