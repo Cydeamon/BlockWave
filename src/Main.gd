@@ -45,5 +45,7 @@ func close_menu():
 func _unhandled_input(event):
 	if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
 		close_menu()
+		$MusicPlayer.stream = gameplay_music
+		$MusicPlayer.play()
 	elif !menu_mode && event.is_action_pressed("ui_cancel"):
 		init_menu()

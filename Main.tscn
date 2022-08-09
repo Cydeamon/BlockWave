@@ -45,7 +45,7 @@ script = ExtResource( 27 )
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 position = Vector2( 960, 540 )
 frames = SubResource( 1 )
-frame = 6
+frame = 12
 playing = true
 
 [node name="Game" type="Node2D" parent="."]
