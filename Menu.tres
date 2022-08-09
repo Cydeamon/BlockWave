@@ -1,0 +1,50 @@
+[gd_resource type="Theme" load_steps=9 format=2]
+
+[ext_resource path="res://assets/fonts/Road_Rage.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=1]
+size = 60
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 0, 0, 1 )
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 1, 0, 0, 0 )
+shadow_color = Color( 1, 0, 0, 0.6 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0, 1, 0.133333, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.968627, 0, 1, 1 )
+shadow_color = Color( 0, 1, 0.835294, 0.6 )
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[resource]
+default_font = SubResource( 1 )
+/colors/clr = Color( 1, 0, 0, 1 )
+/fonts/Text = SubResource( 1 )
+/styles/theme = SubResource( 2 )
+ItemList/colors/font_color = Color( 1, 1, 1, 1 )
+ItemList/colors/font_color_selected = Color( 0.921569, 0, 1, 1 )
+ItemList/colors/guide_color = Color( 1, 1, 1, 0 )
+ItemList/constants/hseparation = 0
+ItemList/constants/icon_margin = 0
+ItemList/constants/line_separation = 0
+ItemList/constants/vseparation = 0
+ItemList/fonts/font = SubResource( 1 )
+ItemList/styles/bg = SubResource( 3 )
+ItemList/styles/bg_focus = SubResource( 6 )
+ItemList/styles/cursor = SubResource( 7 )
+ItemList/styles/cursor_unfocused = null
+ItemList/styles/selected = SubResource( 4 )
+ItemList/styles/selected_focus = SubResource( 5 )
