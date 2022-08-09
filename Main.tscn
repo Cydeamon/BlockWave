@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Menu.tres" type="Theme" id=1]
 [ext_resource path="res://assets/gameover.png" type="Texture" id=2]
@@ -27,6 +27,9 @@
 [ext_resource path="res://assets/retrowaveBackground/frame5.png" type="Texture" id=25]
 [ext_resource path="res://assets/retrowaveBackground/frame12.png" type="Texture" id=26]
 [ext_resource path="res://src/Main.gd" type="Script" id=27]
+[ext_resource path="res://assets/next.png" type="Texture" id=28]
+[ext_resource path="res://assets/sounds/menu_music.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/levelup.png" type="Texture" id=30]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -42,8 +45,23 @@ script = ExtResource( 27 )
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 position = Vector2( 960, 540 )
 frames = SubResource( 1 )
-frame = 3
+frame = 6
 playing = true
+
+[node name="Game" type="Node2D" parent="."]
+visible = false
+
+[node name="UI" type="Node2D" parent="Game"]
+
+[node name="Sprite" type="Sprite" parent="Game/UI"]
+position = Vector2( 1356, 244 )
+texture = ExtResource( 28 )
+
+[node name="Effects" type="Node2D" parent="Game"]
+
+[node name="levelup" type="Sprite" parent="Game/Effects"]
+position = Vector2( 960, 540 )
+texture = ExtResource( 30 )
 
 [node name="Menu" type="Node2D" parent="."]
 
@@ -75,6 +93,10 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 items = [ "Start game", null, false, "Settings", null, false, "Exit", null, false ]
 allow_reselect = true
 
-[node name="Game" type="Node2D" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 29 )
+autoplay = true
+
+[node name="SoundsPlayer" type="AudioStreamPlayer" parent="."]
 
 [connection signal="item_activated" from="Menu/menu_options" to="." method="_on_menu_options_item_activated"]

@@ -1,5 +1,7 @@
 extends Node2D
 
+var gameplay_music = preload("res://assets/sounds/gameplay_music.wav")
+
 func _ready():
 	init_menu()
 	
@@ -24,3 +26,5 @@ func init_menu():
 
 func start_game():
 	$Menu.visible = false
+	$MusicPlayer.stream = gameplay_music
+	$MusicPlayer.play()
