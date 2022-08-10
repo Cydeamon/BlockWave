@@ -50,7 +50,7 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 13
+frame = 10
 playing = true
 centered = false
 
@@ -100,6 +100,8 @@ color = Color( 0, 0.443137, 0.501961, 1 )
 number_of_rows = 20
 number_of_cells_in_row = 10
 
+[node name="step_timer" type="Timer" parent="Game"]
+
 [node name="Menu" type="Node2D" parent="."]
 
 [node name="bg_gameover" type="Sprite" parent="Menu"]
@@ -137,5 +139,6 @@ autoplay = true
 
 [node name="SoundsPlayer" type="AudioStreamPlayer" parent="."]
 
+[connection signal="timeout" from="Game/step_timer" to="." method="step"]
 [connection signal="item_activated" from="Menu/menu_options" to="." method="_on_menu_options_item_activated"]
 [connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]

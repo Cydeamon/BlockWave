@@ -28,6 +28,7 @@ func init_menu():
 	$Menu/menu_options.select(0)
 	$Menu/menu_options.grab_focus()
 	$Game.visible = false
+	$Game/step_timer.stop()
 
 
 func start_game():
@@ -41,6 +42,7 @@ func start_game():
 func close_menu():
 	$Menu.visible = false
 	menu_mode = false
+	$Game/step_timer.start()
 	
 func _unhandled_input(event):
 	if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
@@ -53,3 +55,9 @@ func _unhandled_input(event):
 		
 func _on_MusicPlayer_finished():
 	$MusicPlayer.play(0)
+
+
+func step():
+	print("Step")
+
+

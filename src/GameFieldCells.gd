@@ -26,7 +26,6 @@ func create_cells():
 			cell.name = "cell_" + str(i) + "_" + str(j)
 			cell.position.x = offset_x
 			cell.position.y = offset_y
-			cell.set_color_index(randi() % 7)
 
 			gamefield_map_row.push_back(cell)
 		
