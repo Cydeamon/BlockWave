@@ -208,6 +208,7 @@ func _on_MusicPlayer_finished():
 func rotate_current_figure_left():
 	clear_current_figure_position()
 	var n = current_figure.size();
+	var old_figure = current_figure.duplicate(true)
 
 	for i in (n / 2):
 		var j = i
@@ -218,15 +219,40 @@ func rotate_current_figure_left():
 			current_figure[j][n-i-1]     = current_figure[n-i-1][n-j-1];
 			current_figure[n-i-1][n-j-1] = current_figure[n-j-1][i];
 			current_figure[n-j-1][i]     = tmp;
-
 			j += 1
 
+	rotate_check_out_of_bounds(old_figure)
 	draw_current_figure()
+
+func rotate_check_out_of_bounds(old_figure):	
+	var gamefield = $Game/GameField/GameFieldCells
+	var out_of_bounds = true
+	var old_restored = false
+
+	while out_of_bounds && !old_restored:
+		out_of_bounds = false
+
+		for i in current_figure.size():
+			for j in current_figure[i].size():
+				var cell = current_figure[i][j]
+				if cell != 0 && current_figure_position.x + j >= gamefield.number_of_cells_in_row:
+					out_of_bounds = true
+					break
+				if cell != 0 && current_figure_position.y + i >= gamefield.number_of_rows:
+					current_figure = old_figure
+					old_restored = true
+			
+			if out_of_bounds || old_restored:
+				break
+		
+		if out_of_bounds:
+			current_figure_position.x -= 1
 
 
 func rotate_current_figure_right():
 	clear_current_figure_position()
 	var n = current_figure.size();
+	var old_figure = current_figure.duplicate(true)
 
 	for k in 3:
 		for i in (n / 2):
@@ -241,6 +267,7 @@ func rotate_current_figure_right():
 
 				j += 1
 
+	rotate_check_out_of_bounds(old_figure)
 	draw_current_figure()
 
 
