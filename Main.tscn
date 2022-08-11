@@ -50,7 +50,7 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 21
+frame = 2
 playing = true
 centered = false
 
@@ -140,6 +140,11 @@ autoplay = true
 
 [node name="SoundsPlayer" type="AudioStreamPlayer" parent="."]
 
+[node name="input_timer" type="Timer" parent="."]
+wait_time = 0.11
+autostart = true
+
 [connection signal="timeout" from="Game/step_timer" to="." method="step"]
 [connection signal="item_activated" from="Menu/menu_options" to="." method="_on_menu_options_item_activated"]
 [connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]
+[connection signal="timeout" from="input_timer" to="." method="_on_input_timer_timeout"]

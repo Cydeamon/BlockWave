@@ -13,48 +13,14 @@ var current_figure_position = {
 	y = 0
 }
 
+####################################################################################################
+############################################ GAME LOGIC ############################################
+####################################################################################################
+
 func _ready():
 	init_menu()
 	pick_next_figure()
-
-func _on_menu_options_item_activated(index:int):
-	print("Selected: " + $Menu/menu_options.get_item_text(index))
-	var itemText = $Menu/menu_options.get_item_text(index)
-	
-	if itemText == "Start game":
-		start_game()
-	elif itemText == "Settings":
-		pass
-	elif itemText == "Exit":
-		get_tree().quit()
-
 		
-func _unhandled_input(event):
-	if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
-		close_menu()
-		$MusicPlayer.stream = gameplay_music
-		$MusicPlayer.play()
-	elif !menu_mode && event.is_action_pressed("ui_cancel"):
-		init_menu()
-	elif game_was_started && is_figure_falling:
-		if event.is_action_pressed("ui_left"):
-			if collision_check("left"):
-				move_current_figure("left")
-		elif event.is_action_pressed("ui_right"):
-			if collision_check("right"):
-				move_current_figure("right")
-
-
-func init_menu():
-	menu_mode = true
-	$Menu.visible = true
-	$MusicPlayer.stream = menu_music
-	$MusicPlayer.play()
-	$Menu/menu_options.select(0)
-	$Menu/menu_options.grab_focus()
-	$Game.visible = false
-	$Game/step_timer.stop()
-
 
 func start_game():
 	close_menu()
@@ -62,15 +28,6 @@ func start_game():
 	$MusicPlayer.stream = gameplay_music
 	$MusicPlayer.play()
 	$Game.visible = true
-
-
-func close_menu():
-	$Menu.visible = false
-	menu_mode = false
-	$Game/step_timer.start()
-		
-func _on_MusicPlayer_finished():
-	$MusicPlayer.play(0)
 
 
 func step():
@@ -152,7 +109,6 @@ func pick_next_figure():
 		for j in 4:
 			$Game/UI/Next/next_figure.gamefield_map[i][j].set_color_index(next_figure[i][j])
 
-	
 
 func move_current_figure(direction):
 	clear_current_figure_position();	
@@ -178,6 +134,7 @@ func clear_current_figure_position():
 
 			if cell && current_figure[i][j] != 0: 
 				cell.set_color_index(0)
+
 
 func draw_current_figure():
 	var gamefield = $Game/GameField/GameFieldCells
@@ -227,3 +184,73 @@ func fix_figure():
 	is_figure_falling = false
 	current_figure_position = {x = 0, y = 0}
 	current_figure = []
+
+
+func _on_MusicPlayer_finished():
+	$MusicPlayer.play(0)
+
+
+####################################################################################################
+########################################### INPUT LOGIC ############################################
+####################################################################################################
+
+func _unhandled_input(event):
+	if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
+		close_menu()
+		$MusicPlayer.stream = gameplay_music
+		$MusicPlayer.play()
+	elif !menu_mode && event.is_action_pressed("ui_cancel"):
+		init_menu()
+
+	process_repeatable_actions()
+
+
+func _on_input_timer_timeout():
+	process_repeatable_actions()
+
+func process_repeatable_actions():
+	if game_was_started && is_figure_falling:
+		$input_timer.start()
+		
+		if Input.is_action_pressed("move_left"):
+			if collision_check("left"):
+				move_current_figure("left")
+		elif Input.is_action_pressed("move_right"):
+			if collision_check("right"):
+				move_current_figure("right")
+
+
+
+####################################################################################################
+############################################ MENU LOGIC ############################################
+####################################################################################################
+
+
+func _on_menu_options_item_activated(index:int):
+	print("Selected: " + $Menu/menu_options.get_item_text(index))
+	var itemText = $Menu/menu_options.get_item_text(index)
+	
+	if itemText == "Start game":
+		start_game()
+	elif itemText == "Settings":
+		pass
+	elif itemText == "Exit":
+		get_tree().quit()
+		
+
+func init_menu():
+	menu_mode = true
+	$Menu.visible = true
+	$MusicPlayer.stream = menu_music
+	$MusicPlayer.play()
+	$Menu/menu_options.select(0)
+	$Menu/menu_options.grab_focus()
+	$Game.visible = false
+	$Game/step_timer.stop()
+
+
+func close_menu():
+	$Menu.visible = false
+	menu_mode = false
+	$Game/step_timer.start()
+		
