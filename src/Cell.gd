@@ -1,6 +1,8 @@
 extends Node2D
 
 var cell_color_index = 0
+var x
+var y
 
 func _ready():
 	update_cell_color()

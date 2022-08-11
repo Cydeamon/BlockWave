@@ -50,7 +50,7 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 10
+frame = 17
 playing = true
 centered = false
 

@@ -26,6 +26,8 @@ func create_cells():
 			cell.name = "cell_" + str(i) + "_" + str(j)
 			cell.position.x = offset_x
 			cell.position.y = offset_y
+			cell.x = j
+			cell.y = i
 
 			gamefield_map_row.push_back(cell)
 		
