@@ -5,6 +5,9 @@ var menu_music = preload("res://assets/sounds/menu_music.wav")
 var menu_mode = true
 var game_was_started = false
 var is_figure_falling = false
+var drop_step_duration = 0.05
+var step_duration
+var quick_drop_mode = false
 
 var next_figure = []
 var current_figure = []
@@ -18,6 +21,7 @@ var current_figure_position = {
 ####################################################################################################
 
 func _ready():
+	step_duration = $Game/step_timer.wait_time
 	init_menu()
 	pick_next_figure()
 		
@@ -39,6 +43,8 @@ func step():
 	else:		
 		if !collision_check("down"):
 			fix_figure()
+			quick_drop_mode = false
+			$Game/step_timer.wait_time = step_duration
 		else:
 			move_current_figure("down")
 
@@ -243,23 +249,29 @@ func rotate_current_figure_right():
 ####################################################################################################
 
 func _unhandled_input(event):
-	if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
-		close_menu()
-		$MusicPlayer.stream = gameplay_music
-		$MusicPlayer.play()
-	elif !menu_mode && event.is_action_pressed("ui_cancel"):
-		init_menu()
-	if game_was_started && is_figure_falling:
-		if event.is_action_pressed("rotate_left"):
-			rotate_current_figure_left()
-		if event.is_action_pressed("rotate_right"):
-			rotate_current_figure_right()
+	if !quick_drop_mode:
+		if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
+			close_menu()
+			$MusicPlayer.stream = gameplay_music
+			$MusicPlayer.play()
+		elif !menu_mode && event.is_action_pressed("ui_cancel"):
+			init_menu()
+		if game_was_started && is_figure_falling:
+			if event.is_action_pressed("rotate_left"):
+				rotate_current_figure_left()
+			if event.is_action_pressed("rotate_right"):
+				rotate_current_figure_right()
+			if event.is_action_pressed("drop"):
+				quick_drop_mode = true
+				$Game/step_timer.wait_time = drop_step_duration
+				step()
 
-	process_repeatable_actions()
+		process_repeatable_actions()
 
 
 func _on_input_timer_timeout():
-	process_repeatable_actions()
+	if !quick_drop_mode:
+		process_repeatable_actions()
 
 func process_repeatable_actions():
 	if game_was_started && is_figure_falling:
@@ -267,12 +279,20 @@ func process_repeatable_actions():
 
 		if Input.is_action_pressed("move_left"):
 			if collision_check("left"):
+				restart_step_timer()
 				move_current_figure("left")
 		elif Input.is_action_pressed("move_right"):
 			if collision_check("right"):
+				restart_step_timer()
 				move_current_figure("right")
+		elif Input.is_action_pressed("move_down"):
+			if collision_check("down"):
+				restart_step_timer()
+				move_current_figure("down")
 
 
+func restart_step_timer():
+	$Game/step_timer.start(0)
 
 ####################################################################################################
 ############################################ MENU LOGIC ############################################
