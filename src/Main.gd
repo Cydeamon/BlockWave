@@ -5,6 +5,7 @@ var menu_music = preload("res://assets/sounds/menu_music.wav")
 var menu_mode = true
 var game_was_started = false
 var is_figure_falling = false
+var current_figure_cells = []
 
 func _ready():
 	init_menu()
@@ -63,10 +64,19 @@ func step():
 	if !is_figure_falling:
 		spawn_next_figure()
 		pick_next_figure()
+		is_figure_falling = true
 
 
 func spawn_next_figure():
-	pass
+	var draw_x = $Game/GameField/GameFieldCells.number_of_cells_in_row / 2 - 2
+
+	for i in 2:
+		for j in 4:
+			var cell = $Game/GameField/GameFieldCells.gamefield_map[i][draw_x + j]
+			cell.set_color_index($Game/UI/Next/next_figure.gamefield_map[i][j].cell_color_index)
+			current_figure_cells.push_back(cell)
+
+
 
 func pick_next_figure():
 	var figure_index = randi() % 6 + 1
@@ -87,8 +97,8 @@ func pick_next_figure():
 		]		
 	if figure_index == 2:
 		figure = [
-			[2, 2, 0, 0],
-			[2, 2, 0, 0],
+			[0, 2, 2, 0],
+			[0, 2, 2, 0],
 		]
 		
 	if figure_index == 3:
