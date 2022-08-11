@@ -5,7 +5,13 @@ var menu_music = preload("res://assets/sounds/menu_music.wav")
 var menu_mode = true
 var game_was_started = false
 var is_figure_falling = false
-var current_figure_cells = []
+
+var next_figure = []
+var current_figure = []
+var current_figure_position = {
+	x = 0,
+	y = 0
+}
 
 func _ready():
 	init_menu()
@@ -21,6 +27,22 @@ func _on_menu_options_item_activated(index:int):
 		pass
 	elif itemText == "Exit":
 		get_tree().quit()
+
+		
+func _unhandled_input(event):
+	if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
+		close_menu()
+		$MusicPlayer.stream = gameplay_music
+		$MusicPlayer.play()
+	elif !menu_mode && event.is_action_pressed("ui_cancel"):
+		init_menu()
+	elif game_was_started && is_figure_falling:
+		if event.is_action_pressed("ui_left"):
+			if collision_check("left"):
+				move_current_figure("left")
+		elif event.is_action_pressed("ui_right"):
+			if collision_check("right"):
+				move_current_figure("right")
 
 
 func init_menu():
@@ -46,15 +68,6 @@ func close_menu():
 	$Menu.visible = false
 	menu_mode = false
 	$Game/step_timer.start()
-	
-func _unhandled_input(event):
-	if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
-		close_menu()
-		$MusicPlayer.stream = gameplay_music
-		$MusicPlayer.play()
-	elif !menu_mode && event.is_action_pressed("ui_cancel"):
-		init_menu()
-
 		
 func _on_MusicPlayer_finished():
 	$MusicPlayer.play(0)
@@ -62,6 +75,7 @@ func _on_MusicPlayer_finished():
 
 func step():
 	if !is_figure_falling:
+		current_figure = next_figure
 		spawn_next_figure()
 		pick_next_figure()
 		is_figure_falling = true
@@ -69,23 +83,21 @@ func step():
 		if !collision_check("down"):
 			fix_figure()
 		else:
-			move_current_figure_down()
+			move_current_figure("down")
 
 
 func spawn_next_figure():
-	var draw_x = $Game/GameField/GameFieldCells.number_of_cells_in_row / 2 - 2
+	current_figure_position.x = $Game/GameField/GameFieldCells.number_of_cells_in_row / 2 - 2
+	current_figure_position.y = 0
 
 	for i in 2:
 		for j in 4:
-			var cell = $Game/GameField/GameFieldCells.gamefield_map[i][draw_x + j]
-			cell.set_color_index($Game/UI/Next/next_figure.gamefield_map[i][j].cell_color_index)
-			current_figure_cells.push_front(cell)
-
+			var cell = $Game/GameField/GameFieldCells.gamefield_map[i][current_figure_position.x + j]
+			cell.set_color_index(next_figure[i][j])
 
 
 func pick_next_figure():
 	var figure_index = randi() % 6 + 1
-	var figure = []
 
 	# 1 - Red I     #FF0000
 	# 2 - Blue O    #0000FF
@@ -96,98 +108,122 @@ func pick_next_figure():
 	# 7 - Cyan Z    #00FFFF
 
 	if figure_index == 1:
-		figure = [
-			[0, 0, 0, 0],
+		next_figure = [
 			[1, 1, 1, 1],
+			[0, 0, 0, 0],
 		]		
 	if figure_index == 2:
-		figure = [
+		next_figure = [
 			[0, 2, 2, 0],
 			[0, 2, 2, 0],
 		]
 		
 	if figure_index == 3:
-		figure = [
+		next_figure = [
 			[3, 3, 3, 0],
 			[0, 0, 3, 0],
 		]
 		
 	if figure_index == 4:
-		figure = [
+		next_figure = [
 			[4, 4, 4, 0],
 			[4, 0, 0, 0],
 		]
 		
 	if figure_index == 5:
-		figure = [
+		next_figure = [
 			[0, 5, 5, 0],
 			[5, 5, 0, 0],
 		]
 		
 	if figure_index == 6:
-		figure = [
+		next_figure = [
 			[6, 6, 6, 0],
 			[0, 6, 0, 0],
 		]
 
 	if figure_index == 7:
-		figure = [
+		next_figure = [
 			[7, 7, 0, 0],
 			[0, 7, 7, 0],
 		]
 
 	for i in 2:
 		for j in 4:
-			$Game/UI/Next/next_figure.gamefield_map[i][j].set_color_index(figure[i][j])
+			$Game/UI/Next/next_figure.gamefield_map[i][j].set_color_index(next_figure[i][j])
 
 	
 
-func move_current_figure_down():
+func move_current_figure(direction):
+	clear_current_figure_position();	
+	
+	if direction == "down":
+		current_figure_position.y += 1
+	if direction == "left":
+		current_figure_position.x -= 1
+	if direction == "right":
+		current_figure_position.x += 1
+
+	draw_current_figure()
+
+
+func clear_current_figure_position():
 	var gamefield = $Game/GameField/GameFieldCells
 
-	for i in current_figure_cells.size(): 
-		var cell = current_figure_cells[i]
+	for i in current_figure.size(): 
+		for j in current_figure[i].size():
+			var cur_y = current_figure_position.y + i
+			var cur_x = current_figure_position.x + j
+			var cell = gamefield.get_node("cell_" + str(cur_y) + "_" + str(cur_x))
 
-		if cell.cell_color_index > 0:
-			var next_cell = gamefield.get_node("cell_" + str(cell.y + 1) + "_" + str(cell.x))
-			next_cell.set_color_index(cell.cell_color_index)
-			cell.set_color_index(0)
-			current_figure_cells[i] = next_cell
+			if cell && current_figure[i][j] != 0: 
+				cell.set_color_index(0)
+
+func draw_current_figure():
+	var gamefield = $Game/GameField/GameFieldCells
+
+	for i in current_figure.size(): 
+		for j in current_figure[i].size():
+			var cur_y = current_figure_position.y + i
+			var cur_x = current_figure_position.x + j
+			var color = current_figure[i][j]
+
+			if color != 0:
+				gamefield.get_node("cell_" + str(cur_y) + "_" + str(cur_x)).set_color_index(color)
 
 
 func collision_check(direction):
 	var gamefield = $Game/GameField/GameFieldCells
+	var result = true
 
-	for i in current_figure_cells.size(): 
-		var cell = current_figure_cells[i]
+	clear_current_figure_position()
 
-		if cell.cell_color_index > 0:
-			var next_cell
+	for i in current_figure.size():
+		for j in current_figure[i].size():
+			if current_figure[i][j] != 0:
+				var next_x = current_figure_position.x + j
+				var next_y = current_figure_position.y + i
 
-			if direction == "down":
-				next_cell = gamefield.get_node("cell_" + str(cell.y + 1) + "_" + str(cell.x))
-			if direction == "left":
-				next_cell = gamefield.get_node("cell_" + str(cell.y) + "_" + str(cell.x-1))
-			if direction == "right":
-				next_cell = gamefield.get_node("cell_" + str(cell.y) + "_" + str(cell.x+1))			
-	
-			if !next_cell:
-				return false
-			
-			if next_cell.cell_color_index != 0:
-				var is_self_collide = false
+				if direction == "down":
+					next_y += 1
+				if direction == "left":
+					next_x -= 1
+				if direction == "right":
+					next_x += 1
 
-				for temp_cell in current_figure_cells: 
-					if temp_cell == next_cell:
-						is_self_collide = true
-						break
+				var next_cell = gamefield.get_node("cell_" + str(next_y) + "_" + str(next_x))
 
-				if !is_self_collide:
-					return false
+				if !next_cell || next_cell.cell_color_index != 0:
+					result = false
+		
+		if result == false:
+			break
 
-	return true
+	draw_current_figure()			
+	return result
 
 
 func fix_figure():
 	is_figure_falling = false
-	current_figure_cells = []
+	current_figure_position = {x = 0, y = 0}
+	current_figure = []

@@ -50,7 +50,7 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 17
+frame = 21
 playing = true
 centered = false
 
@@ -101,6 +101,7 @@ number_of_rows = 20
 number_of_cells_in_row = 10
 
 [node name="step_timer" type="Timer" parent="Game"]
+wait_time = 0.1
 
 [node name="Menu" type="Node2D" parent="."]
 
