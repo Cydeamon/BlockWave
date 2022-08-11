@@ -9,6 +9,10 @@ var res_cell = preload("res://assets/Cell.tscn")
 func _ready():
 	create_cells()
 	
+func clear_field():
+	for i in gamefield_map.size():
+		for j in gamefield_map[i].size():
+			gamefield_map[i][j].set_color_index(0)
 
 func create_cells():
 	var cell_width = 50
