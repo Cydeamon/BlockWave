@@ -2,6 +2,7 @@ extends Node2D
 
 export var number_of_rows: int
 export var number_of_cells_in_row: int
+export var limit_rows_draw: int
 
 var gamefield_map = []
 var res_cell = preload("res://assets/Cell.tscn")
@@ -34,6 +35,9 @@ func create_cells():
 			cell.y = i
 
 			gamefield_map_row.push_back(cell)
+
+			if i >= limit_rows_draw:
+				cell.visible = false
 		
 		gamefield_map.push_back(gamefield_map_row)
 
