@@ -43,11 +43,44 @@ func step():
 	else:		
 		if !collision_check("down"):
 			fix_figure()
+			clear_full_lines()
 			quick_drop_mode = false
 			$Game/step_timer.wait_time = step_duration
 		else:
 			move_current_figure("down")
 
+
+func clear_full_lines():
+	var gamefield = $Game/GameField/GameFieldCells
+	var full_rows = []
+
+	for i in gamefield.number_of_rows:
+		var row_full = true
+
+		for j in gamefield.number_of_cells_in_row:
+			if gamefield.get_node('cell_' + str(i) + '_' + str(j)).cell_color_index == 0:
+				row_full = false
+				break
+
+		if row_full:
+			full_rows.push_back(i)
+
+	for row in full_rows:
+		var i = row
+
+		while i >= 0:
+			for j in gamefield.number_of_cells_in_row:
+				var cell = gamefield.get_node('cell_' + str(i) + '_' + str(j))
+				var upper_cell = gamefield.get_node('cell_' + str(i-1) + '_' + str(j))
+				var upper_cell_value = 0 
+				
+				if upper_cell != null: 
+					upper_cell_value = upper_cell.cell_color_index
+
+				cell.set_color_index(upper_cell_value)
+			
+			i -= 1
+		
 
 func spawn_next_figure():
 	current_figure_position.x = $Game/GameField/GameFieldCells.number_of_cells_in_row / 2 - 2
