@@ -303,7 +303,9 @@ func _unhandled_input(event):
 				rotate_current_figure_right()
 			if event.is_action_pressed("drop"):
 				quick_drop_mode = true
+				$Game/step_timer.stop()
 				$Game/step_timer.wait_time = drop_step_duration
+				$Game/step_timer.start()
 				step()
 
 		process_repeatable_actions()
