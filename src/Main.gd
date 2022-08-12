@@ -321,11 +321,9 @@ func process_repeatable_actions():
 
 		if Input.is_action_pressed("move_left"):
 			if collision_check("left"):
-				restart_step_timer()
 				move_current_figure("left")
 		elif Input.is_action_pressed("move_right"):
 			if collision_check("right"):
-				restart_step_timer()
 				move_current_figure("right")
 		elif Input.is_action_pressed("move_down"):
 			if collision_check("down"):
@@ -334,6 +332,7 @@ func process_repeatable_actions():
 
 
 func restart_step_timer():
+	$Game/step_timer.stop()
 	$Game/step_timer.start(0)
 
 ####################################################################################################
