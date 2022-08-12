@@ -221,32 +221,45 @@ func rotate_current_figure_left():
 			current_figure[n-j-1][i]     = tmp;
 			j += 1
 
-	rotate_check_out_of_bounds(old_figure)
+	rotate_collision_check(old_figure)
 	draw_current_figure()
 
-func rotate_check_out_of_bounds(old_figure):	
+func rotate_collision_check(old_figure):	
 	var gamefield = $Game/GameField/GameFieldCells
 	var out_of_bounds = true
 	var old_restored = false
 
 	while out_of_bounds && !old_restored:
 		out_of_bounds = false
+		var correction_direction = ""
 
 		for i in current_figure.size():
 			for j in current_figure[i].size():
 				var cell = current_figure[i][j]
-				if cell != 0 && current_figure_position.x + j >= gamefield.number_of_cells_in_row:
-					out_of_bounds = true
-					break
-				if cell != 0 && current_figure_position.y + i >= gamefield.number_of_rows:
-					current_figure = old_figure
-					old_restored = true
+				if cell != 0:
+					if current_figure_position.x + j >= gamefield.number_of_cells_in_row :
+						out_of_bounds = true
+						correction_direction = "left"
+						break
+					elif current_figure_position.x + j < 0:
+						out_of_bounds = true
+						correction_direction = "right"
+						break
+					elif current_figure_position.y + i >= gamefield.number_of_rows || current_figure_position.y + i < 0:
+						current_figure = old_figure
+						old_restored = true
+					elif gamefield.get_node('cell_' + str(current_figure_position.y + i) + '_' + str(current_figure_position.x + j)).cell_color_index != 0:
+						current_figure = old_figure
+						old_restored = true
 			
 			if out_of_bounds || old_restored:
 				break
 		
 		if out_of_bounds:
-			current_figure_position.x -= 1
+			if correction_direction == "left":
+				current_figure_position.x -= 1
+			elif correction_direction == "right":
+				current_figure_position.x += 1
 
 
 func rotate_current_figure_right():
@@ -267,7 +280,7 @@ func rotate_current_figure_right():
 
 				j += 1
 
-	rotate_check_out_of_bounds(old_figure)
+	rotate_collision_check(old_figure)
 	draw_current_figure()
 
 
