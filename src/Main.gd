@@ -37,6 +37,12 @@ func _ready():
     pick_next_figure()
         
 
+func reset_game():
+    score = 0
+    level = 1
+    lines_clear_total = 0
+    gamefield.clear_field()
+
 func start_game():
     close_menu()
     game_was_started = true
@@ -46,20 +52,34 @@ func start_game():
 
 
 func step():
-    if !is_figure_falling:
-        current_figure = next_figure
-        spawn_next_figure()
-        pick_next_figure()
-        is_figure_falling = true
-    else:		
-        if !collision_check("down"):
-            fix_figure()
-            var lines_count = clear_full_lines()
-            update_score_and_level(lines_count)
-            quick_drop_mode = false
-            $Game/step_timer.wait_time = step_duration
-        else:
-            move_current_figure("down")
+    if game_was_started && !menu_mode:
+        if !is_figure_falling:
+            current_figure = next_figure
+
+            if spawn_next_figure():
+                pick_next_figure()
+                is_figure_falling = true
+            else:
+                gameover()
+        else:		
+            if !collision_check("down"):
+                fix_figure()
+                var lines_count = clear_full_lines()
+                update_score_and_level(lines_count)
+                quick_drop_mode = false
+                $Game/step_timer.wait_time = step_duration
+            else:
+                move_current_figure("down")
+
+func gameover():
+    game_was_started = false
+    $Game.visible = false
+    $Menu/menu_options.visible = false
+    $Menu/bg_menu.visible = false
+    $Menu/logo.visible = false
+    $Menu.visible = true
+    $Menu/bg_gameover.visible = true
+
 
 
 func clear_full_lines():
@@ -102,7 +122,13 @@ func spawn_next_figure():
     for i in current_figure.size():
         for j in current_figure[i].size():
             var cell = $Game/GameField/GameFieldCells.gamefield_map[i][current_figure_position.x + j]
+
+            if cell.cell_color_index != 0:
+                return false
+
             cell.set_color_index(next_figure[i][j])
+
+    return true
 
 
 func pick_next_figure():
@@ -417,7 +443,10 @@ func _on_menu_options_item_activated(index:int):
     print("Selected: " + $Menu/menu_options.get_item_text(index))
     var itemText = $Menu/menu_options.get_item_text(index)
     
-    if itemText == "Start game":
+    if itemText == "Start game" || itemText == "Resume game":
+        if !game_was_started:
+            reset_game()
+
         start_game()
     elif itemText == "Settings":
         pass
@@ -427,13 +456,24 @@ func _on_menu_options_item_activated(index:int):
 
 func init_menu():
     menu_mode = true
+
+    $Game.visible = false
+    $Menu/menu_options.visible = true
+    $Menu/bg_menu.visible = true
+    $Menu/logo.visible = true
     $Menu.visible = true
+    $Menu/bg_gameover.visible = false
+
     $MusicPlayer.stream = menu_music
     $MusicPlayer.play()
     $Menu/menu_options.select(0)
     $Menu/menu_options.grab_focus()
-    $Game.visible = false
     $Game/step_timer.stop()
+
+    if game_was_started:
+        $Menu/menu_options.set_item_text(0, "Resume game")
+    else: 
+        $Menu/menu_options.set_item_text(0, "Start game")
 
 
 func close_menu():
