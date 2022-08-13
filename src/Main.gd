@@ -5,7 +5,7 @@ var menu_music = preload("res://assets/sounds/menu_music.wav")
 var menu_mode = true
 var game_was_started = false
 var is_figure_falling = false
-var drop_step_duration = 0.05
+var drop_step_duration = 0.02
 var step_duration
 var quick_drop_mode = false
 var gamefield
@@ -30,6 +30,9 @@ var rng
 func _ready():
     rng = RandomNumberGenerator.new()
     rng.randomize()
+
+    for i in $Menu/menu_options.get_item_count():
+        $Menu/menu_options.set_item_tooltip_enabled(i, false)
 
     gamefield = $Game/GameField/GameFieldCells
     step_duration = $Game/step_timer.wait_time
