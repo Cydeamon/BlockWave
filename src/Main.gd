@@ -21,11 +21,16 @@ var current_figure_position = {
     y = 0
 }
 
+var rng
+
 ####################################################################################################
 ############################################ GAME LOGIC ############################################
 ####################################################################################################
 
 func _ready():
+    rng = RandomNumberGenerator.new()
+    rng.randomize()
+
     gamefield = $Game/GameField/GameFieldCells
     step_duration = $Game/step_timer.wait_time
     init_menu()
@@ -101,7 +106,7 @@ func spawn_next_figure():
 
 
 func pick_next_figure():
-    var figure_index = randi() % 6 + 1
+    var figure_index = rng.randi() % 6 + 1
 
     # 1 - Red I     #FF0000
     # 2 - Blue O    #0000FF
