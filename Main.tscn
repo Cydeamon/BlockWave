@@ -50,7 +50,7 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 17
+frame = 20
 playing = true
 centered = false
 
@@ -137,6 +137,7 @@ allow_reselect = true
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 29 )
+volume_db = -9.613
 autoplay = true
 
 [node name="SoundsPlayer" type="AudioStreamPlayer" parent="."]

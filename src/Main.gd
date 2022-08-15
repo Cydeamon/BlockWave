@@ -2,6 +2,11 @@ extends Node2D
 
 var gameplay_music = preload("res://assets/sounds/gameplay_music.wav")
 var menu_music = preload("res://assets/sounds/menu_music.wav")
+
+var destroy_sound = preload("res://assets/sounds/destroy.wav")
+var hit_sound = preload("res://assets/sounds/hit.wav")
+var turn_sound = preload("res://assets/sounds/turn.wav")
+
 var menu_mode = true
 var game_was_started = false
 var is_figure_falling = false
@@ -70,8 +75,13 @@ func step():
 		else:		
 			if !collision_check("down"):
 				fix_figure()
+				play_sound(hit_sound)
 				var lines_count = clear_full_lines()
 				update_score_and_level(lines_count)
+
+				if lines_count > 0:
+					play_sound(destroy_sound)
+
 				quick_drop_mode = false
 				$Game/step_timer.wait_time = step_duration
 			else:
@@ -86,7 +96,9 @@ func gameover():
 	$Menu.visible = true
 	$Menu/bg_gameover.visible = true
 
-
+func play_sound(sound):
+	$SoundsPlayer.stream = sound
+	$SoundsPlayer.play()
 
 func clear_full_lines():
 	var full_rows = []
@@ -404,8 +416,10 @@ func _unhandled_input(event):
 		if game_was_started && is_figure_falling:
 			if event.is_action_pressed("rotate_left"):
 				rotate_current_figure_left()
+				play_sound(turn_sound)
 			if event.is_action_pressed("rotate_right"):
 				rotate_current_figure_right()
+				play_sound(turn_sound)
 			if event.is_action_pressed("drop"):
 				quick_drop_mode = true
 				$Game/step_timer.stop()
