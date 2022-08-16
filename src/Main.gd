@@ -72,7 +72,7 @@ func step():
 	if game_was_started && !menu_mode:		
 		if !is_figure_falling:
 			get_full_lines()
-			
+
 			if full_lines.size() > 0:
 				clear_full_lines()
 				play_sound(destroy_sound)		
@@ -398,6 +398,7 @@ func rotate_current_figure_right():
 	draw_current_figure()
 
 func update_score_and_level(lines_clear = 0):
+	var prev_level = level
 	score += level^3 + (current_figure.size() - current_figure_position.y + 1) * 2 * level
 	lines_clear_total += lines_clear
 	
@@ -405,6 +406,9 @@ func update_score_and_level(lines_clear = 0):
 		level = (lines_clear_total / 30) + 1
 		step_duration /= 2
 		$Game/step_timer.wait_time = step_duration 
+
+	if level > prev_level:
+		$AnimationPlayer.play("levelup")
 
 	if lines_clear ==  1: 
 		score += 100; 

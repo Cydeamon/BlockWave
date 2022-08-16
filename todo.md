@@ -3,4 +3,3 @@
 (B) Settings loading               +Tetrawave   #settings
 (D) Statistics at game over        +Tetrawave   #cosmetical 
 
-Level up effect
