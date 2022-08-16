@@ -114,6 +114,8 @@ func gameover():
 	$Menu.visible = true
 	$Menu/bg_gameover.visible = true
 
+	$Menu/bg_gameover/statistics.text = $Game/UI/text_info.text
+
 func play_sound(sound):
 	$SoundsPlayer.stream = sound
 	$SoundsPlayer.play()

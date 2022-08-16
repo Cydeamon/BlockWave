@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Menu.tres" type="Theme" id=1]
 [ext_resource path="res://assets/gameover.png" type="Texture" id=2]
@@ -46,6 +46,10 @@ animations = [ {
 size = 32
 font_data = ExtResource( 32 )
 
+[sub_resource type="DynamicFont" id=5]
+size = 64
+font_data = ExtResource( 32 )
+
 [sub_resource type="Animation" id=3]
 length = 0.001
 tracks/0/type = "value"
@@ -82,7 +86,6 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 20
 playing = true
 centered = false
 
@@ -150,24 +153,35 @@ limit_rows_draw = 20
 wait_time = 0.5
 
 [node name="Menu" type="Node2D" parent="."]
-visible = false
 
 [node name="bg_gameover" type="Sprite" parent="Menu"]
-visible = false
 texture = ExtResource( 2 )
 centered = false
 
+[node name="statistics" type="Label" parent="Menu/bg_gameover"]
+margin_left = 91.0
+margin_top = 699.0
+margin_right = 387.0
+margin_bottom = 1008.0
+custom_fonts/font = SubResource( 5 )
+text = "Score: 0
+Lines: 0
+Level: 1"
+
 [node name="bg_menu" type="Sprite" parent="Menu"]
+visible = false
 texture = ExtResource( 3 )
 centered = false
 
 [node name="logo" type="Sprite" parent="Menu"]
+visible = false
 position = Vector2( 49, 33 )
 scale = Vector2( 0.480417, 0.480417 )
 texture = ExtResource( 4 )
 centered = false
 
 [node name="menu_options" type="ItemList" parent="Menu"]
+visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 69.0
