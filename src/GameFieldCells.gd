@@ -42,6 +42,14 @@ func create_cells():
 		gamefield_map.push_back(gamefield_map_row)
 
 
+func set_cells_colors(cells):	
+	clear_field()
+	
+	for i in cells.size():
+		for j in cells[i].size():
+			gamefield_map[i][j].set_color_index(cells[i][j])
+			gamefield_map[i][j].update_cell_color()
+
 func update_cells():
 	for i in number_of_rows:
 		for j in number_of_cells_in_row:

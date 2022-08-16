@@ -10,6 +10,7 @@ var turn_sound = preload("res://assets/sounds/turn.wav")
 var menu_mode = true
 var game_was_started = false
 var is_figure_falling = false
+var is_hold_used = false
 var drop_step_duration = 0.02
 var step_duration
 var quick_drop_mode = false
@@ -20,7 +21,9 @@ var level = 1
 var score = 0
 
 var next_figure = []
+var hold_figure = []
 var current_figure = []
+var current_figure_rotation = 0 # 0 - default, 1 - 1 right rotation, 2 - 2, 3 - 3
 var current_figure_position = {
 	x = 0,
 	y = 0
@@ -67,12 +70,13 @@ func step():
 		if !is_figure_falling:
 			current_figure = next_figure
 
-			if spawn_next_figure():
+			if spawn_current_figure_at_the_top():
 				pick_next_figure()
 				is_figure_falling = true
+				is_hold_used = false 
 			else:
 				gameover()
-		else:		
+		else:
 			if !collision_check("down"):
 				fix_figure()
 				play_sound(hit_sound)
@@ -133,7 +137,8 @@ func clear_full_lines():
 	return full_rows.size()
 		
 
-func spawn_next_figure():
+func spawn_current_figure_at_the_top():
+	current_figure_rotation = 0
 	current_figure_position.x = $Game/GameField/GameFieldCells.number_of_cells_in_row / 2 - 2
 	current_figure_position.y = 0
 
@@ -144,7 +149,7 @@ func spawn_next_figure():
 			if cell.cell_color_index != 0:
 				return false
 
-			cell.set_color_index(next_figure[i][j])
+			cell.set_color_index(current_figure[i][j])
 
 	return true
 
@@ -210,11 +215,7 @@ func pick_next_figure():
 		]
 
 	$Game/UI/Next/next_figure.clear_field()
-
-	for i in next_figure.size():
-		for j in next_figure[i].size():
-			$Game/UI/Next/next_figure.gamefield_map[i][j].set_color_index(next_figure[i][j])
-
+	$Game/UI/Next/next_figure.set_cells_colors(next_figure)
 
 func move_current_figure(direction):
 	clear_current_figure_position();	
@@ -290,8 +291,10 @@ func fix_figure():
 func _on_MusicPlayer_finished():
 	$MusicPlayer.play(0)
 
-func rotate_current_figure_left():
-	clear_current_figure_position()
+func rotate_current_figure_left(draw = true):
+	if draw:
+		clear_current_figure_position()
+
 	var n = current_figure.size();
 	var old_figure = current_figure.duplicate(true)
 
@@ -306,8 +309,15 @@ func rotate_current_figure_left():
 			current_figure[n-j-1][i]     = tmp;
 			j += 1
 
-	rotate_collision_check(old_figure)
-	draw_current_figure()
+
+	if rotate_collision_check(old_figure):
+		current_figure_rotation -= 1
+
+		if current_figure_rotation < 0:
+			current_figure_rotation = 3
+
+	if draw:
+		draw_current_figure()
 
 func rotate_collision_check(old_figure):	
 	var out_of_bounds = true
@@ -345,6 +355,8 @@ func rotate_collision_check(old_figure):
 			elif correction_direction == "right":
 				current_figure_position.x += 1
 
+	return !old_restored
+
 
 func rotate_current_figure_right():
 	clear_current_figure_position()
@@ -364,7 +376,12 @@ func rotate_current_figure_right():
 
 				j += 1
 
-	rotate_collision_check(old_figure)
+	if rotate_collision_check(old_figure):
+		current_figure_rotation += 1
+
+		if current_figure_rotation >= 4:
+			current_figure_rotation = 0
+
 	draw_current_figure()
 
 func update_score_and_level(lines_clear = 0):
@@ -413,6 +430,30 @@ func _unhandled_input(event):
 			$MusicPlayer.play()
 		elif !menu_mode && event.is_action_pressed("ui_cancel"):
 			init_menu()
+		elif !menu_mode && !is_hold_used && event.is_action_pressed("hold"):
+			var is_first_hold = !hold_figure
+			is_hold_used = true
+			clear_current_figure_position()
+
+			while current_figure_rotation != 0:
+				rotate_current_figure_left(false)
+
+			if !is_first_hold:
+				var temp_hold_figure = hold_figure.duplicate(true)
+				hold_figure = current_figure.duplicate(true)
+				next_figure = temp_hold_figure.duplicate(true)
+			else:
+				hold_figure = current_figure.duplicate(true)
+
+			$Game/UI/Hold/hold_figure.set_cells_colors(hold_figure)
+			current_figure = next_figure.duplicate(true)
+
+			spawn_current_figure_at_the_top()
+			is_figure_falling = true
+
+			if is_first_hold:
+				pick_next_figure()
+			
 		if game_was_started && is_figure_falling:
 			if event.is_action_pressed("rotate_left"):
 				rotate_current_figure_left()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Menu.tres" type="Theme" id=1]
 [ext_resource path="res://assets/gameover.png" type="Texture" id=2]
@@ -30,6 +30,7 @@
 [ext_resource path="res://assets/next.png" type="Texture" id=28]
 [ext_resource path="res://assets/sounds/menu_music.wav" type="AudioStream" id=29]
 [ext_resource path="res://assets/levelup.png" type="Texture" id=30]
+[ext_resource path="res://assets/hold.png" type="Texture" id=31]
 [ext_resource path="res://assets/fonts/Road_Rage.ttf" type="DynamicFontData" id=32]
 [ext_resource path="res://assets/GameFieldCells.tscn" type="PackedScene" id=34]
 
@@ -50,7 +51,7 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 20
+frame = 6
 playing = true
 centered = false
 
@@ -70,6 +71,19 @@ limit_rows_draw = 2
 [node name="Next" type="Sprite" parent="Game/UI/Next"]
 position = Vector2( 1359, 244 )
 texture = ExtResource( 28 )
+
+[node name="Hold" type="Node2D" parent="Game/UI"]
+position = Vector2( -25, -116 )
+
+[node name="hold_figure" parent="Game/UI/Hold" instance=ExtResource( 34 )]
+position = Vector2( 491, 198 )
+number_of_rows = 4
+number_of_cells_in_row = 4
+limit_rows_draw = 2
+
+[node name="Hold" type="Sprite" parent="Game/UI/Hold"]
+position = Vector2( 591, 244 )
+texture = ExtResource( 31 )
 
 [node name="text_info" type="Label" parent="Game/UI"]
 margin_left = 1236.0
@@ -105,6 +119,7 @@ limit_rows_draw = 20
 wait_time = 0.5
 
 [node name="Menu" type="Node2D" parent="."]
+visible = false
 
 [node name="bg_gameover" type="Sprite" parent="Menu"]
 visible = false
