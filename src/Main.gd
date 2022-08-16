@@ -12,9 +12,12 @@ var game_was_started = false
 var is_figure_falling = false
 var is_hold_used = false
 var drop_step_duration = 0.02
+var clear_step_duration = 0.1
 var step_duration
 var quick_drop_mode = false
 var gamefield
+
+var full_lines = []
 
 var lines_clear_total = 0
 var level = 1
@@ -65,29 +68,40 @@ func start_game():
 	$Game.visible = true
 
 
-func step():
-	if game_was_started && !menu_mode:
+func step():	
+	if game_was_started && !menu_mode:		
 		if !is_figure_falling:
-			current_figure = next_figure
+			get_full_lines()
+			
+			if full_lines.size() > 0:
+				clear_full_lines()
+				play_sound(destroy_sound)		
+			else:				
+				quick_drop_mode = false
+				$Game/step_timer.wait_time = step_duration
+				
+				current_figure = next_figure
 
-			if spawn_current_figure_at_the_top():
-				pick_next_figure()
-				is_figure_falling = true
-				is_hold_used = false 
-			else:
-				gameover()
+				if spawn_current_figure_at_the_top():
+					pick_next_figure()
+					is_figure_falling = true
+					is_hold_used = false 
+				else:
+					gameover()
 		else:
 			if !collision_check("down"):
 				fix_figure()
 				play_sound(hit_sound)
-				var lines_count = clear_full_lines()
-				update_score_and_level(lines_count)
+				var full_lines_count = get_full_lines()
+				update_score_and_level(full_lines_count)
 
-				if lines_count > 0:
-					play_sound(destroy_sound)
-
-				quick_drop_mode = false
-				$Game/step_timer.wait_time = step_duration
+				if full_lines_count > 0:
+					$Game/step_timer.stop()
+					$Game/step_timer.wait_time = clear_step_duration
+					$Game/step_timer.start()
+				else:
+					quick_drop_mode = false
+					$Game/step_timer.wait_time = step_duration
 			else:
 				move_current_figure("down")
 
@@ -104,8 +118,8 @@ func play_sound(sound):
 	$SoundsPlayer.stream = sound
 	$SoundsPlayer.play()
 
-func clear_full_lines():
-	var full_rows = []
+func get_full_lines():
+	full_lines = []
 
 	for i in gamefield.number_of_rows:
 		var row_full = true
@@ -116,25 +130,24 @@ func clear_full_lines():
 				break
 
 		if row_full:
-			full_rows.push_back(i)
+			full_lines.push_back(i)
 
-	for row in full_rows:
-		var i = row
+	return full_lines.size()
 
-		while i >= 0:
-			for j in gamefield.number_of_cells_in_row:
-				var cell = gamefield.get_node('cell_' + str(i) + '_' + str(j))
-				var upper_cell = gamefield.get_node('cell_' + str(i-1) + '_' + str(j))
-				var upper_cell_value = 0 
-				
-				if upper_cell != null: 
-					upper_cell_value = upper_cell.cell_color_index
-
-				cell.set_color_index(upper_cell_value)
+func clear_full_lines():
+	var row = full_lines.pop_back()
+	while row >= 0:
+		for j in gamefield.number_of_cells_in_row:
+			var cell = gamefield.get_node('cell_' + str(row) + '_' + str(j))
+			var upper_cell = gamefield.get_node('cell_' + str(row-1) + '_' + str(j))
+			var upper_cell_value = 0 
 			
-			i -= 1
+			if upper_cell != null: 
+				upper_cell_value = upper_cell.cell_color_index
 
-	return full_rows.size()
+			cell.set_color_index(upper_cell_value)
+		
+		row -= 1
 		
 
 func spawn_current_figure_at_the_top():

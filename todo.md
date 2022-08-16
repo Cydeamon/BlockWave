@@ -1,4 +1,3 @@
-(A) Clear row animation            +Tetrawave   #animation
 (B) Settings (audio, fullscreen)   +Tetrawave   #settings
 (B) Settings saving                +Tetrawave   #settings
 (B) Settings loading               +Tetrawave   #settings
