@@ -6,5 +6,4 @@ Settings               #settings {c}
     Controls           #settings        
     Settings saving    #settings
     Settings loading   #settings
-Controller controls    #controls 
 Ghost effect           #cosmetics    

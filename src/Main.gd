@@ -252,6 +252,13 @@ func clear_current_figure_position():
 		for j in current_figure[i].size():
 			var cur_y = current_figure_position.y + i
 			var cur_x = current_figure_position.x + j
+
+			var out_of_range_x = !(cur_x >= 0 && cur_x < gamefield.number_of_cells_in_row)
+			var out_of_range_y = !(cur_y >= 0 && cur_y < gamefield.number_of_rows)
+
+			if out_of_range_x || out_of_range_y:
+				continue
+
 			var cell = gamefield.get_node("cell_" + str(cur_y) + "_" + str(cur_x))
 
 			if cell && current_figure[i][j] != 0: 

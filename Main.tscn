@@ -86,7 +86,7 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 21
+frame = 9
 playing = true
 centered = false
 
@@ -197,7 +197,7 @@ autoplay = true
 [node name="SoundsPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="input_timer" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.12
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
