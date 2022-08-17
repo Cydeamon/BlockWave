@@ -6,4 +6,3 @@ Settings               #settings
     Controls           #settings        
     Settings saving    #settings
     Settings loading   #settings
-Ghost effect           #cosmetics    

@@ -81,6 +81,7 @@ func step():
 				current_figure = next_figure
 
 				if spawn_current_figure_at_the_top():
+					redraw_ghost_figure()
 					pick_next_figure()
 					is_figure_falling = true
 					is_hold_used = false 
@@ -489,9 +490,11 @@ func _unhandled_input(event):
 			if event.is_action_pressed("rotate_left"):
 				rotate_current_figure_left()
 				play_sound(turn_sound)
+				redraw_ghost_figure()
 			if event.is_action_pressed("rotate_right"):
 				rotate_current_figure_right()
 				play_sound(turn_sound)
+				redraw_ghost_figure()
 			if event.is_action_pressed("drop"):
 				quick_drop_mode = true
 				$Game/step_timer.stop()
@@ -513,14 +516,68 @@ func process_repeatable_actions():
 		if Input.is_action_pressed("move_left"):
 			if collision_check("left"):
 				move_current_figure("left")
+				redraw_ghost_figure()
 		elif Input.is_action_pressed("move_right"):
 			if collision_check("right"):
 				move_current_figure("right")
+				redraw_ghost_figure()
 		elif Input.is_action_pressed("move_down"):
 			if collision_check("down"):
 				restart_step_timer()
 				move_current_figure("down")
 
+
+func redraw_ghost_figure():
+	# Find fall position
+	clear_current_figure_position()
+	var x = current_figure_position.x
+	var y = current_figure_position.y
+	var position_is_found = false
+
+	while true:
+		for i in current_figure.size():
+			for j in current_figure[i].size():
+				if current_figure[i][j] != 0:
+					var next_x = x + j
+					var next_y = y + i + 1	
+					var out_of_range_x = !(next_x >= 0 && next_x < gamefield.number_of_cells_in_row)
+					var out_of_range_y = !(next_y >= 0 && next_y < gamefield.number_of_rows)
+	
+					if out_of_range_x || out_of_range_y:
+						position_is_found = true
+						continue
+					else:
+						var next_cell = gamefield.get_node("cell_" + str(next_y) + "_" + str(next_x))
+
+						if next_cell.cell_color_index != 0:
+							position_is_found = true
+
+				if position_is_found:
+					break
+			if position_is_found:
+				break
+		
+		if position_is_found:
+			break
+		else:
+			y += 1
+
+	# Remove highlights
+	for i in gamefield.number_of_rows:
+		for j in gamefield.number_of_cells_in_row:
+			gamefield.get_node("cell_" + str(i) + "_" + str(j)).get_node("ghost_highlight").visible = false
+
+	# Draw highlights
+	for i in current_figure.size():
+		for j in current_figure[i].size():
+			if current_figure[i][j] != 0:
+				var cell_name = "cell_" + str(i + y) + "_" + str(j + x)
+				var cell = gamefield.get_node(cell_name)
+
+				if cell:
+					cell.get_node("ghost_highlight").visible = true
+	
+	draw_current_figure()
 
 func restart_step_timer():
 	$Game/step_timer.stop()
