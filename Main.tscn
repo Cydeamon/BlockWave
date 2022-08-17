@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Menu.tres" type="Theme" id=1]
 [ext_resource path="res://assets/gameover.png" type="Texture" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://assets/levelup.png" type="Texture" id=30]
 [ext_resource path="res://assets/hold.png" type="Texture" id=31]
 [ext_resource path="res://assets/fonts/Road_Rage.ttf" type="DynamicFontData" id=32]
+[ext_resource path="res://assets/glow.png" type="Texture" id=33]
 [ext_resource path="res://assets/GameFieldCells.tscn" type="PackedScene" id=34]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -86,12 +87,11 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 9
+frame = 17
 playing = true
 centered = false
 
 [node name="Game" type="Node2D" parent="."]
-visible = false
 
 [node name="UI" type="Node2D" parent="Game"]
 
@@ -146,10 +146,16 @@ number_of_rows = 20
 number_of_cells_in_row = 10
 limit_rows_draw = 20
 
+[node name="Glow" type="Sprite" parent="Game/GameField"]
+position = Vector2( 253, 490 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 33 )
+
 [node name="step_timer" type="Timer" parent="Game"]
 wait_time = 0.5
 
 [node name="Menu" type="Node2D" parent="."]
+visible = false
 
 [node name="bg_gameover" type="Sprite" parent="Menu"]
 visible = false

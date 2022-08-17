@@ -1,4 +1,4 @@
-Settings               #settings {c}
+Settings               #settings
     Master volume      #settings            
     Music volume       #settings            
     Sounds volume      #settings            
