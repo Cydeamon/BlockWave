@@ -1,5 +1,10 @@
-(B) Settings (audio, fullscreen)   +Tetrawave   #settings
-(B) Settings saving                +Tetrawave   #settings
-(B) Settings loading               +Tetrawave   #settings
-(D) Statistics at game over        +Tetrawave   #cosmetical 
-
+(B) Settings    +Tetrawave   #settings
+    Master volume
+    Music volume
+    Sounds volume
+    Fullscreen toggle
+    Controls
+    Settings saving                +Tetrawave   #settings
+    Settings loading               +Tetrawave   #settings
+Controller controls
+Ghost effect

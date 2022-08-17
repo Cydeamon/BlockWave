@@ -86,6 +86,7 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
+frame = 4
 playing = true
 centered = false
 
@@ -139,11 +140,6 @@ texture = ExtResource( 30 )
 [node name="GameField" type="Node2D" parent="Game"]
 position = Vector2( 700, 50 )
 
-[node name="gamefield_bg" type="ColorRect" parent="Game/GameField"]
-margin_right = 500.0
-margin_bottom = 978.0
-color = Color( 0, 0.443137, 0.501961, 1 )
-
 [node name="GameFieldCells" parent="Game/GameField" instance=ExtResource( 34 )]
 number_of_rows = 20
 number_of_cells_in_row = 10
@@ -153,6 +149,7 @@ limit_rows_draw = 20
 wait_time = 0.5
 
 [node name="Menu" type="Node2D" parent="."]
+visible = false
 
 [node name="bg_gameover" type="Sprite" parent="Menu"]
 texture = ExtResource( 2 )
@@ -203,7 +200,7 @@ autoplay = true
 [node name="SoundsPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="input_timer" type="Timer" parent="."]
-wait_time = 0.11
+wait_time = 0.15
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

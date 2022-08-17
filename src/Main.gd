@@ -141,7 +141,11 @@ func clear_full_lines():
 	while row >= 0:
 		for j in gamefield.number_of_cells_in_row:
 			var cell = gamefield.get_node('cell_' + str(row) + '_' + str(j))
-			var upper_cell = gamefield.get_node('cell_' + str(row-1) + '_' + str(j))
+			var upper_cell = null;
+
+			if row > 0:
+				upper_cell = gamefield.get_node('cell_' + str(row-1) + '_' + str(j))
+
 			var upper_cell_value = 0 
 			
 			if upper_cell != null: 
@@ -285,9 +289,16 @@ func collision_check(direction):
 				if direction == "right":
 					next_x += 1
 
+				var out_of_range_x = !(next_x >= 0 && next_x < gamefield.number_of_cells_in_row)
+				var out_of_range_y = !(next_y >= 0 && next_y < gamefield.number_of_rows)
+
+				if out_of_range_x || out_of_range_y:
+					result = false
+					continue
+
 				var next_cell = gamefield.get_node("cell_" + str(next_y) + "_" + str(next_x))
 
-				if !next_cell || next_cell.cell_color_index != 0:
+				if next_cell.cell_color_index != 0:
 					result = false
 		
 		if result == false:
@@ -457,21 +468,17 @@ func _unhandled_input(event):
 			while current_figure_rotation != 0:
 				rotate_current_figure_left(false)
 
-			if !is_first_hold:
+			if is_first_hold:
+				hold_figure = current_figure.duplicate(true)
+				current_figure = next_figure.duplicate(true)
+				pick_next_figure()
+			else:
 				var temp_hold_figure = hold_figure.duplicate(true)
 				hold_figure = current_figure.duplicate(true)
-				next_figure = temp_hold_figure.duplicate(true)
-			else:
-				hold_figure = current_figure.duplicate(true)
+				current_figure = temp_hold_figure.duplicate(true)
 
 			$Game/UI/Hold/hold_figure.set_cells_colors(hold_figure)
-			current_figure = next_figure.duplicate(true)
-
 			spawn_current_figure_at_the_top()
-			is_figure_falling = true
-
-			if is_first_hold:
-				pick_next_figure()
 			
 		if game_was_started && is_figure_falling:
 			if event.is_action_pressed("rotate_left"):
