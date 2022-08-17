@@ -5,4 +5,5 @@ Settings               #settings
     Full screen toggle #settings                
     Controls           #settings        
     Settings saving    #settings
+    Ghost toggle       #settings
     Settings loading   #settings

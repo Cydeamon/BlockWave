@@ -1,5 +1,11 @@
 extends Node2D
 
+const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
+var sqlite_db
+var sqlite_db_name = "res://GameDB.db"
+
+var settings
+
 var gameplay_music = preload("res://assets/sounds/gameplay_music.wav")
 var menu_music = preload("res://assets/sounds/menu_music.wav")
 
@@ -39,6 +45,8 @@ var rng
 ####################################################################################################
 
 func _ready():
+	read_settings_from_db()
+
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 
@@ -47,10 +55,21 @@ func _ready():
 	build_menu()
 	init_menu()
 	pick_next_figure()
-	
+
 func _process(delta):
 	select_menu_item_on_hover()
 		
+
+func read_settings_from_db():
+	sqlite_db = SQLite.new()
+	sqlite_db.path = sqlite_db_name
+	sqlite_db.open_db()
+	if sqlite_db.query("SELECT * FROM settings"):
+		settings = sqlite_db.query_result[0]
+
+	print(settings)
+	
+
 
 func reset_game():
 	score = 0
@@ -528,56 +547,57 @@ func process_repeatable_actions():
 
 
 func redraw_ghost_figure():
-	# Find fall position
-	clear_current_figure_position()
-	var x = current_figure_position.x
-	var y = current_figure_position.y
-	var position_is_found = false
+	if int(settings["show_ghost"]):
+		# Find fall position
+		clear_current_figure_position()
+		var x = current_figure_position.x
+		var y = current_figure_position.y
+		var position_is_found = false
 
-	while true:
+		while true:
+			for i in current_figure.size():
+				for j in current_figure[i].size():
+					if current_figure[i][j] != 0:
+						var next_x = x + j
+						var next_y = y + i + 1	
+						var out_of_range_x = !(next_x >= 0 && next_x < gamefield.number_of_cells_in_row)
+						var out_of_range_y = !(next_y >= 0 && next_y < gamefield.number_of_rows)
+		
+						if out_of_range_x || out_of_range_y:
+							position_is_found = true
+							continue
+						else:
+							var next_cell = gamefield.get_node("cell_" + str(next_y) + "_" + str(next_x))
+
+							if next_cell.cell_color_index != 0:
+								position_is_found = true
+
+					if position_is_found:
+						break
+				if position_is_found:
+					break
+			
+			if position_is_found:
+				break
+			else:
+				y += 1
+
+		# Remove highlights
+		for i in gamefield.number_of_rows:
+			for j in gamefield.number_of_cells_in_row:
+				gamefield.get_node("cell_" + str(i) + "_" + str(j)).get_node("ghost_highlight").visible = false
+
+		# Draw highlights
 		for i in current_figure.size():
 			for j in current_figure[i].size():
 				if current_figure[i][j] != 0:
-					var next_x = x + j
-					var next_y = y + i + 1	
-					var out_of_range_x = !(next_x >= 0 && next_x < gamefield.number_of_cells_in_row)
-					var out_of_range_y = !(next_y >= 0 && next_y < gamefield.number_of_rows)
-	
-					if out_of_range_x || out_of_range_y:
-						position_is_found = true
-						continue
-					else:
-						var next_cell = gamefield.get_node("cell_" + str(next_y) + "_" + str(next_x))
+					var cell_name = "cell_" + str(i + y) + "_" + str(j + x)
+					var cell = gamefield.get_node(cell_name)
 
-						if next_cell.cell_color_index != 0:
-							position_is_found = true
-
-				if position_is_found:
-					break
-			if position_is_found:
-				break
+					if cell:
+						cell.get_node("ghost_highlight").visible = true
 		
-		if position_is_found:
-			break
-		else:
-			y += 1
-
-	# Remove highlights
-	for i in gamefield.number_of_rows:
-		for j in gamefield.number_of_cells_in_row:
-			gamefield.get_node("cell_" + str(i) + "_" + str(j)).get_node("ghost_highlight").visible = false
-
-	# Draw highlights
-	for i in current_figure.size():
-		for j in current_figure[i].size():
-			if current_figure[i][j] != 0:
-				var cell_name = "cell_" + str(i + y) + "_" + str(j + x)
-				var cell = gamefield.get_node(cell_name)
-
-				if cell:
-					cell.get_node("ghost_highlight").visible = true
-	
-	draw_current_figure()
+		draw_current_figure()
 
 func restart_step_timer():
 	$Game/step_timer.stop()
