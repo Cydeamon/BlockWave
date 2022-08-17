@@ -1,10 +1,10 @@
-(B) Settings    +Tetrawave   #settings
-    Master volume
-    Music volume
-    Sounds volume
-    Fullscreen toggle
-    Controls
-    Settings saving                +Tetrawave   #settings
-    Settings loading               +Tetrawave   #settings
-Controller controls
-Ghost effect
+Settings               #settings {c}
+    Master volume      #settings            
+    Music volume       #settings            
+    Sounds volume      #settings            
+    Full screen toggle #settings                
+    Controls           #settings        
+    Settings saving    #settings
+    Settings loading   #settings
+Controller controls    #controls 
+Ghost effect           #cosmetics    

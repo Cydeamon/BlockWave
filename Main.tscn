@@ -86,11 +86,12 @@ script = ExtResource( 27 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 4
+frame = 21
 playing = true
 centered = false
 
 [node name="Game" type="Node2D" parent="."]
+visible = false
 
 [node name="UI" type="Node2D" parent="Game"]
 
@@ -149,9 +150,9 @@ limit_rows_draw = 20
 wait_time = 0.5
 
 [node name="Menu" type="Node2D" parent="."]
-visible = false
 
 [node name="bg_gameover" type="Sprite" parent="Menu"]
+visible = false
 texture = ExtResource( 2 )
 centered = false
 
@@ -166,19 +167,16 @@ Lines: 0
 Level: 1"
 
 [node name="bg_menu" type="Sprite" parent="Menu"]
-visible = false
 texture = ExtResource( 3 )
 centered = false
 
 [node name="logo" type="Sprite" parent="Menu"]
-visible = false
 position = Vector2( 49, 33 )
 scale = Vector2( 0.480417, 0.480417 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="menu_options" type="ItemList" parent="Menu"]
-visible = false
+[node name="menu_options" type="Tree" parent="Menu"]
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 69.0
@@ -189,7 +187,6 @@ rect_clip_content = false
 theme = ExtResource( 1 )
 custom_colors/font_color_selected = Color( 0.921569, 0, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-items = [ "Start game", null, false, "Settings", null, false, "Exit", null, false ]
 allow_reselect = true
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
@@ -208,6 +205,7 @@ anims/RESET = SubResource( 3 )
 anims/levelup = SubResource( 4 )
 
 [connection signal="timeout" from="Game/step_timer" to="." method="step"]
+[connection signal="button_pressed" from="Menu/menu_options" to="." method="_on_menu_options_button_pressed"]
 [connection signal="gui_input" from="Menu/menu_options" to="." method="_on_menu_options_gui_input"]
 [connection signal="item_activated" from="Menu/menu_options" to="." method="_on_menu_options_item_activated"]
 [connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]

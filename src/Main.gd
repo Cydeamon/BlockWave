@@ -42,11 +42,9 @@ func _ready():
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 
-	for i in $Menu/menu_options.get_item_count():
-		$Menu/menu_options.set_item_tooltip_enabled(i, false)
-
 	gamefield = $Game/GameField/GameFieldCells
 	step_duration = $Game/step_timer.wait_time
+	build_menu()
 	init_menu()
 	pick_next_figure()
 	
@@ -525,40 +523,25 @@ func restart_step_timer():
 ############################################ MENU LOGIC ############################################
 ####################################################################################################
 
+func build_menu():
+	var tree = $Menu/menu_options
+	var root = $Menu/menu_options.create_item()
+	
+	tree.set_hide_root(true)
+	tree.create_item(root).set_text(0, "Start game");
+	tree.create_item(root).set_text(0, "Settings");
+	tree.create_item(root).set_text(0, "Exit");
+
 func select_menu_item_on_hover():
 	if menu_mode:
 		var menu_options = $Menu/menu_options
 		var mouse_position = get_viewport().get_mouse_position()
 		mouse_position.y -= menu_options.get_position().y
 
-		var index = menu_options.get_item_at_position(mouse_position, true)
-		
-		if index != -1:
-			menu_options.select(index)
+		var item = menu_options.get_item_at_position(mouse_position)
 
-func activate_menu_item_on_mouse_position():
-	var menu_options = $Menu/menu_options
-	var mouse_position = get_viewport().get_mouse_position()
-	mouse_position.y -= menu_options.get_position().y
-
-	var index = menu_options.get_item_at_position(mouse_position, true)
-	
-	if index != -1:
-		_on_menu_options_item_activated(index)
-			
-func _on_menu_options_item_activated(index:int):
-	print("Selected: " + $Menu/menu_options.get_item_text(index))
-	var itemText = $Menu/menu_options.get_item_text(index)
-	
-	if itemText == "Start game" || itemText == "Resume game":
-		if !game_was_started:
-			reset_game()
-
-		start_game()
-	elif itemText == "Settings":
-		pass
-	elif itemText == "Exit":
-		get_tree().quit()
+		if item:
+			item.select(0)
 		
 
 func init_menu():
@@ -573,14 +556,14 @@ func init_menu():
 
 	$MusicPlayer.stream = menu_music
 	$MusicPlayer.play()
-	$Menu/menu_options.select(0)
+	$Menu/menu_options.get_root().get_children().select(0)
 	$Menu/menu_options.grab_focus()
 	$Game/step_timer.stop()
 
 	if game_was_started:
-		$Menu/menu_options.set_item_text(0, "Resume game")
+		$Menu/menu_options.get_root().get_children().set_text(0, "Resume game")
 	else: 
-		$Menu/menu_options.set_item_text(0, "Start game")
+		$Menu/menu_options.get_root().get_children().set_text(0, "Start game")
 
 
 func close_menu():
@@ -593,4 +576,19 @@ func _on_menu_options_gui_input(event:InputEvent):
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			if event.button_index == 1:
-				activate_menu_item_on_mouse_position()
+				_on_menu_options_item_activated()
+
+
+func _on_menu_options_item_activated():	
+	var item = $Menu/menu_options.get_selected()
+
+	if item.get_text(0) == "Start game" || item.get_text(0) == "Resume game":
+		if !game_was_started:
+			reset_game()
+
+		start_game()
+	elif item.get_text(0) == "Settings":
+		pass
+	elif item.get_text(0) == "Exit":
+		get_tree().quit()
+		
