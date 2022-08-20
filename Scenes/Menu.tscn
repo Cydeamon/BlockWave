@@ -96,9 +96,8 @@ margin_left = 630.0
 margin_top = 39.0
 margin_right = 1027.0
 margin_bottom = 70.0
-max_value = 1.0
-value = 0.25
-increase_decrease_step = 0.1
+min_value = -60.0
+increase_decrease_step = 5.0
 
 [node name="music_volume" type="Button" parent="SettingsMenu"]
 margin_top = 202.0
@@ -119,9 +118,8 @@ margin_left = 630.0
 margin_top = 39.0
 margin_right = 1027.0
 margin_bottom = 70.0
-max_value = 1.0
-value = 0.25
-increase_decrease_step = 0.1
+min_value = -60.0
+increase_decrease_step = 5.0
 
 [node name="sounds_volume" type="Button" parent="SettingsMenu"]
 margin_top = 303.0
@@ -142,9 +140,8 @@ margin_left = 630.0
 margin_top = 39.0
 margin_right = 1027.0
 margin_bottom = 70.0
-max_value = 1.0
-value = 0.25
-increase_decrease_step = 0.1
+min_value = -60.0
+increase_decrease_step = 5.0
 
 [connection signal="pressed" from="MainMenu/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="pressed" from="MainMenu/Settings" to="." method="_on_Settings_pressed"]

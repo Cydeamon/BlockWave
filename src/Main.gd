@@ -66,10 +66,13 @@ func read_settings_from_db():
 	for param in settings:
 		if param == "master_volume":
 			update_menu_option_progressbar_value(param, settings[param])
+			AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), settings[param])
 		if param == "music_volume":
 			update_menu_option_progressbar_value(param, settings[param])
+			$MasterVolume/MusicPlayer.volume_db = settings[param]
 		if param == "sounds_volume":
 			update_menu_option_progressbar_value(param, settings[param])
+			$MasterVolume/SoundsPlayer.volume_db = settings[param]
 	
 
 
@@ -82,8 +85,8 @@ func reset_game():
 func start_game():
 	close_menu()
 	game_was_started = true
-	$MusicPlayer.stream = gameplay_music
-	$MusicPlayer.play()
+	$MasterVolume/MusicPlayer.stream = gameplay_music
+	$MasterVolume/MusicPlayer.play()
 	$Game.visible = true
 
 
@@ -137,8 +140,8 @@ func gameover():
 	$Menu/bg_gameover/statistics.text = $Game/UI/text_info.text
 
 func play_sound(sound):
-	$SoundsPlayer.stream = sound
-	$SoundsPlayer.play()
+	$MasterVolume/SoundsPlayer.stream = sound
+	$MasterVolume/SoundsPlayer.play()
 
 func get_full_lines():
 	full_lines = []
@@ -342,7 +345,7 @@ func fix_figure():
 
 
 func _on_MusicPlayer_finished():
-	$MusicPlayer.play(0)
+	$MasterVolume/MusicPlayer.play(0)
 
 func rotate_current_figure_left(draw = true):
 	if draw:
@@ -483,8 +486,8 @@ func _unhandled_input(event):
 	if !quick_drop_mode:
 		if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
 			close_menu()
-			$MusicPlayer.stream = gameplay_music
-			$MusicPlayer.play()
+			$MasterVolume/MusicPlayer.stream = gameplay_music
+			$MasterVolume/MusicPlayer.play()
 		elif !menu_mode && event.is_action_pressed("ui_cancel"):
 			init_menu()
 		elif !menu_mode && !is_hold_used && event.is_action_pressed("hold"):
@@ -632,8 +635,8 @@ func init_menu():
 	$Menu.visible = true
 	$Menu/bg_gameover.visible = false
 
-	$MusicPlayer.stream = menu_music
-	$MusicPlayer.play()
+	$MasterVolume/MusicPlayer.stream = menu_music
+	$MasterVolume/MusicPlayer.play()
 	$Game/step_timer.stop()
 
 	if game_was_started:
@@ -661,10 +664,13 @@ func _on_menu_options_start_game():
 func _on_menu_options_value_changed(menu_option, value):
 	if menu_option.name == "master_volume":
 		update_settings_with_value(menu_option.name, value)
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), value)
 	if menu_option.name == "music_volume":
 		update_settings_with_value(menu_option.name, value)
+		$MasterVolume/MusicPlayer.volume_db = value
 	if menu_option.name == "sounds_volume":
 		update_settings_with_value(menu_option.name, value)
+		$MasterVolume/SoundsPlayer.volume_db = value
 
 
 func update_settings_with_value(name, value):
@@ -672,6 +678,9 @@ func update_settings_with_value(name, value):
 	value = "\"" + str(value) + "\""
 
 	sqlite_db.query("UPDATE settings SET " + name + " = " + value)
+	
+	if sqlite_db.error_message != "not an error":
+		print(sqlite_db.error_message)
 
 func update_menu_option_progressbar_value(name, value):
 	$Menu/menu_options/SettingsMenu.get_node(name).get_node("ProgressBar").set_value(value)
