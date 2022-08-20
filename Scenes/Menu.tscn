@@ -44,7 +44,7 @@ custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = SubResource( 2 )
-text = "SEttings"
+text = "Settings"
 flat = true
 align = 0
 
@@ -77,7 +77,7 @@ text = "Back"
 flat = true
 align = 0
 
-[node name="MasterVolume" type="Button" parent="SettingsMenu"]
+[node name="master_volume" type="Button" parent="SettingsMenu"]
 margin_top = 101.0
 margin_right = 1066.0
 margin_bottom = 198.0
@@ -89,17 +89,17 @@ text = "Master volume"
 flat = true
 align = 0
 
-[node name="ProgressBar" parent="SettingsMenu/MasterVolume" instance=ExtResource( 2 )]
+[node name="ProgressBar" parent="SettingsMenu/master_volume" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
 margin_top = 39.0
 margin_right = 1027.0
 margin_bottom = 70.0
-max_value = 1.0
-value = 0.25
+min_value = -60.0
+increase_decrease_step = 5.0
 
-[node name="MusicVolume" type="Button" parent="SettingsMenu"]
+[node name="music_volume" type="Button" parent="SettingsMenu"]
 margin_top = 202.0
 margin_right = 1066.0
 margin_bottom = 299.0
@@ -111,17 +111,17 @@ text = "Music volume"
 flat = true
 align = 0
 
-[node name="ProgressBar" parent="SettingsMenu/MusicVolume" instance=ExtResource( 2 )]
+[node name="ProgressBar" parent="SettingsMenu/music_volume" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
 margin_top = 39.0
 margin_right = 1027.0
 margin_bottom = 70.0
-max_value = 1.0
-value = 0.25
+min_value = -60.0
+increase_decrease_step = 5.0
 
-[node name="SoundsVolume" type="Button" parent="SettingsMenu"]
+[node name="sounds_volume" type="Button" parent="SettingsMenu"]
 margin_top = 303.0
 margin_right = 1066.0
 margin_bottom = 400.0
@@ -133,16 +133,19 @@ text = "Sounds volume"
 flat = true
 align = 0
 
-[node name="ProgressBar" parent="SettingsMenu/SoundsVolume" instance=ExtResource( 2 )]
+[node name="ProgressBar" parent="SettingsMenu/sounds_volume" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
 margin_top = 39.0
 margin_right = 1027.0
 margin_bottom = 70.0
-max_value = 1.0
-value = 0.25
+min_value = -60.0
+increase_decrease_step = 5.0
 
 [connection signal="pressed" from="MainMenu/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="pressed" from="MainMenu/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="MainMenu/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="gui_input" from="SettingsMenu/master_volume" to="." method="_on_menu_option_gui_input"]
+[connection signal="gui_input" from="SettingsMenu/music_volume" to="." method="_on_menu_option_gui_input"]
+[connection signal="gui_input" from="SettingsMenu/sounds_volume" to="." method="_on_menu_option_gui_input"]
