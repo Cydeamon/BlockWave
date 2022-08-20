@@ -5,7 +5,7 @@ export var number_of_cells_in_row: int
 export var limit_rows_draw: int
 
 var gamefield_map = []
-var res_cell = preload("res://assets/Cell.tscn")
+var res_cell = preload("res://scenes/Cell.tscn")
 
 func _ready():
 	create_cells()

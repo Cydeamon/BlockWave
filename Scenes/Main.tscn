@@ -1,0 +1,209 @@
+[gd_scene load_steps=40 format=2]
+
+[ext_resource path="res://assets/fonts/Road_Rage.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/GameFieldCells.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Menu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Main.gd" type="Script" id=4]
+[ext_resource path="res://assets/tetrawave_logo.png" type="Texture" id=5]
+[ext_resource path="res://assets/gameover.png" type="Texture" id=6]
+[ext_resource path="res://assets/menuBackground.png" type="Texture" id=7]
+[ext_resource path="res://assets/retrowaveBackground/frame20.png" type="Texture" id=8]
+[ext_resource path="res://assets/retrowaveBackground/frame10.png" type="Texture" id=10]
+[ext_resource path="res://assets/retrowaveBackground/frame3.png" type="Texture" id=11]
+[ext_resource path="res://assets/retrowaveBackground/frame4.png" type="Texture" id=12]
+[ext_resource path="res://assets/retrowaveBackground/frame19.png" type="Texture" id=13]
+[ext_resource path="res://assets/retrowaveBackground/frame21.png" type="Texture" id=14]
+[ext_resource path="res://assets/retrowaveBackground/frame11.png" type="Texture" id=15]
+[ext_resource path="res://assets/retrowaveBackground/frame8.png" type="Texture" id=16]
+[ext_resource path="res://assets/retrowaveBackground/frame14.png" type="Texture" id=17]
+[ext_resource path="res://assets/retrowaveBackground/frame16.png" type="Texture" id=18]
+[ext_resource path="res://assets/retrowaveBackground/frame13.png" type="Texture" id=19]
+[ext_resource path="res://assets/retrowaveBackground/frame17.png" type="Texture" id=20]
+[ext_resource path="res://assets/retrowaveBackground/frame7.png" type="Texture" id=21]
+[ext_resource path="res://assets/retrowaveBackground/frame6.png" type="Texture" id=22]
+[ext_resource path="res://assets/retrowaveBackground/frame9.png" type="Texture" id=23]
+[ext_resource path="res://assets/retrowaveBackground/frame1.png" type="Texture" id=24]
+[ext_resource path="res://assets/retrowaveBackground/frame22.png" type="Texture" id=25]
+[ext_resource path="res://assets/retrowaveBackground/frame18.png" type="Texture" id=26]
+[ext_resource path="res://assets/retrowaveBackground/frame5.png" type="Texture" id=27]
+[ext_resource path="res://assets/retrowaveBackground/frame12.png" type="Texture" id=28]
+[ext_resource path="res://assets/sounds/menu_music.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/retrowaveBackground/frame15.png" type="Texture" id=30]
+[ext_resource path="res://assets/retrowaveBackground/frame2.png" type="Texture" id=31]
+[ext_resource path="res://assets/hold.png" type="Texture" id=32]
+[ext_resource path="res://assets/glow.png" type="Texture" id=33]
+[ext_resource path="res://assets/next.png" type="Texture" id=34]
+[ext_resource path="res://assets/levelup.png" type="Texture" id=35]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 24 ), ExtResource( 31 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 27 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 16 ), ExtResource( 23 ), ExtResource( 10 ), ExtResource( 15 ), ExtResource( 28 ), ExtResource( 19 ), ExtResource( 17 ), ExtResource( 30 ), ExtResource( 18 ), ExtResource( 20 ), ExtResource( 26 ), ExtResource( 13 ), ExtResource( 8 ), ExtResource( 14 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "default",
+"speed": 30.0
+} ]
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 64
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Game/Effects/levelup:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "levelup"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/path = NodePath("Game/Effects/levelup:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.75 ),
+"transitions": PoolRealArray( 1, 4, 11.3137 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="bg_animation" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+frame = 19
+playing = true
+centered = false
+
+[node name="Game" type="Node2D" parent="."]
+
+[node name="UI" type="Node2D" parent="Game"]
+
+[node name="Next" type="Node2D" parent="Game/UI"]
+position = Vector2( -25, -116 )
+
+[node name="next_figure" parent="Game/UI/Next" instance=ExtResource( 2 )]
+position = Vector2( 1259, 198 )
+number_of_rows = 4
+number_of_cells_in_row = 4
+limit_rows_draw = 2
+
+[node name="Next" type="Sprite" parent="Game/UI/Next"]
+position = Vector2( 1359, 244 )
+texture = ExtResource( 34 )
+
+[node name="Hold" type="Node2D" parent="Game/UI"]
+position = Vector2( -25, -116 )
+
+[node name="hold_figure" parent="Game/UI/Hold" instance=ExtResource( 2 )]
+position = Vector2( 491, 198 )
+number_of_rows = 4
+number_of_cells_in_row = 4
+limit_rows_draw = 2
+
+[node name="Hold" type="Sprite" parent="Game/UI/Hold"]
+position = Vector2( 591, 244 )
+texture = ExtResource( 32 )
+
+[node name="text_info" type="Label" parent="Game/UI"]
+margin_left = 1236.0
+margin_top = 227.0
+margin_right = 1397.0
+margin_bottom = 401.0
+custom_fonts/font = SubResource( 2 )
+text = "Score: 0
+Lines: 0
+Level: 1"
+
+[node name="Effects" type="Node2D" parent="Game"]
+
+[node name="levelup" type="Sprite" parent="Game/Effects"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 960, 540 )
+texture = ExtResource( 35 )
+
+[node name="GameField" type="Node2D" parent="Game"]
+position = Vector2( 700, 50 )
+
+[node name="GameFieldCells" parent="Game/GameField" instance=ExtResource( 2 )]
+number_of_rows = 20
+number_of_cells_in_row = 10
+limit_rows_draw = 20
+
+[node name="Glow" type="Sprite" parent="Game/GameField"]
+position = Vector2( 253, 490 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 33 )
+
+[node name="step_timer" type="Timer" parent="Game"]
+wait_time = 0.5
+
+[node name="Menu" type="Node2D" parent="."]
+
+[node name="bg_gameover" type="Sprite" parent="Menu"]
+visible = false
+texture = ExtResource( 6 )
+centered = false
+
+[node name="statistics" type="Label" parent="Menu/bg_gameover"]
+margin_left = 91.0
+margin_top = 699.0
+margin_right = 387.0
+margin_bottom = 1008.0
+custom_fonts/font = SubResource( 5 )
+text = "Score: 0
+Lines: 0
+Level: 1"
+
+[node name="bg_menu" type="Sprite" parent="Menu"]
+texture = ExtResource( 7 )
+centered = false
+
+[node name="logo" type="Sprite" parent="Menu"]
+position = Vector2( 49, 33 )
+scale = Vector2( 0.480417, 0.480417 )
+texture = ExtResource( 5 )
+centered = false
+
+[node name="menu_options" parent="Menu" instance=ExtResource( 3 )]
+margin_left = 70.0
+margin_top = 358.0
+margin_right = 70.0
+margin_bottom = 358.0
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 29 )
+volume_db = -9.613
+autoplay = true
+
+[node name="SoundsPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="input_timer" type="Timer" parent="."]
+wait_time = 0.12
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 3 )
+anims/levelup = SubResource( 4 )
+
+[connection signal="timeout" from="Game/step_timer" to="." method="step"]
+[connection signal="exit" from="Menu/menu_options" to="." method="_on_menu_options_exit"]
+[connection signal="start_game" from="Menu/menu_options" to="." method="_on_menu_options_start_game"]
+[connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]
+[connection signal="timeout" from="input_timer" to="." method="_on_input_timer_timeout"]

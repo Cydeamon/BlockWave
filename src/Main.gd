@@ -52,12 +52,8 @@ func _ready():
 
 	gamefield = $Game/GameField/GameFieldCells
 	step_duration = $Game/step_timer.wait_time
-	build_menu()
 	init_menu()
 	pick_next_figure()
-
-func _process(delta):
-	select_menu_item_on_hover()
 		
 
 func read_settings_from_db():
@@ -607,14 +603,6 @@ func restart_step_timer():
 ############################################ MENU LOGIC ############################################
 ####################################################################################################
 
-func build_menu():
-	var tree = $Menu/menu_options
-	var root = $Menu/menu_options.create_item()
-	
-	tree.set_hide_root(true)
-	tree.create_item(root).set_text(0, "Start game");
-	tree.create_item(root).set_text(0, "Settings");
-	tree.create_item(root).set_text(0, "Exit");
 
 func select_menu_item_on_hover():
 	if menu_mode:
@@ -640,39 +628,25 @@ func init_menu():
 
 	$MusicPlayer.stream = menu_music
 	$MusicPlayer.play()
-	$Menu/menu_options.get_root().get_children().select(0)
-	$Menu/menu_options.grab_focus()
 	$Game/step_timer.stop()
 
 	if game_was_started:
-		$Menu/menu_options.get_root().get_children().set_text(0, "Resume game")
+		$Menu/menu_options/MainMenu/StartGame.text = "Resume game"
 	else: 
-		$Menu/menu_options.get_root().get_children().set_text(0, "Start game")
-
+		$Menu/menu_options/MainMenu/StartGame.text = "Start game"
 
 func close_menu():
 	$Menu.visible = false
 	menu_mode = false
 	$Game/step_timer.start()
-		
-
-func _on_menu_options_gui_input(event:InputEvent):
-	if event is InputEventMouseButton:
-		if event.is_pressed():
-			if event.button_index == 1:
-				_on_menu_options_item_activated()
 
 
-func _on_menu_options_item_activated():	
-	var item = $Menu/menu_options.get_selected()
+func _on_menu_options_exit():
+	get_tree().quit()
 
-	if item.get_text(0) == "Start game" || item.get_text(0) == "Resume game":
-		if !game_was_started:
-			reset_game()
 
-		start_game()
-	elif item.get_text(0) == "Settings":
-		pass
-	elif item.get_text(0) == "Exit":
-		get_tree().quit()
-		
+func _on_menu_options_start_game():
+	if !game_was_started:
+		reset_game()
+
+	start_game()

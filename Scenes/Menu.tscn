@@ -1,0 +1,148 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/fonts/Road_Rage.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scenes/ProgressBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Menu.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+extra_spacing_bottom = -10
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="MainMenu" type="VBoxContainer" parent="."]
+visible = false
+margin_right = 1066.0
+margin_bottom = 508.0
+rect_pivot_offset = Vector2( -970, 0 )
+focus_mode = 2
+
+[node name="StartGame" type="Button" parent="MainMenu"]
+margin_right = 1066.0
+margin_bottom = 97.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 2 )
+text = "Start game"
+flat = true
+align = 0
+
+[node name="Settings" type="Button" parent="MainMenu"]
+margin_top = 101.0
+margin_right = 1066.0
+margin_bottom = 198.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 2 )
+text = "SEttings"
+flat = true
+align = 0
+
+[node name="Exit" type="Button" parent="MainMenu"]
+margin_top = 202.0
+margin_right = 1066.0
+margin_bottom = 299.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 2 )
+text = "Exit"
+flat = true
+align = 0
+
+[node name="SettingsMenu" type="VBoxContainer" parent="."]
+visible = false
+margin_right = 1066.0
+margin_bottom = 508.0
+rect_pivot_offset = Vector2( -970, 0 )
+
+[node name="Back" type="Button" parent="SettingsMenu"]
+margin_right = 1066.0
+margin_bottom = 97.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 3 )
+text = "Back"
+flat = true
+align = 0
+
+[node name="MasterVolume" type="Button" parent="SettingsMenu"]
+margin_top = 101.0
+margin_right = 1066.0
+margin_bottom = 198.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 3 )
+text = "Master volume"
+flat = true
+align = 0
+
+[node name="ProgressBar" parent="SettingsMenu/MasterVolume" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 630.0
+margin_top = 39.0
+margin_right = 1027.0
+margin_bottom = 70.0
+max_value = 1.0
+value = 0.25
+
+[node name="MusicVolume" type="Button" parent="SettingsMenu"]
+margin_top = 202.0
+margin_right = 1066.0
+margin_bottom = 299.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 3 )
+text = "Music volume"
+flat = true
+align = 0
+
+[node name="ProgressBar" parent="SettingsMenu/MusicVolume" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 630.0
+margin_top = 39.0
+margin_right = 1027.0
+margin_bottom = 70.0
+max_value = 1.0
+value = 0.25
+
+[node name="SoundsVolume" type="Button" parent="SettingsMenu"]
+margin_top = 303.0
+margin_right = 1066.0
+margin_bottom = 400.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 3 )
+text = "Sounds volume"
+flat = true
+align = 0
+
+[node name="ProgressBar" parent="SettingsMenu/SoundsVolume" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 630.0
+margin_top = 39.0
+margin_right = 1027.0
+margin_bottom = 70.0
+max_value = 1.0
+value = 0.25
+
+[connection signal="pressed" from="MainMenu/StartGame" to="." method="_on_StartGame_pressed"]
+[connection signal="pressed" from="MainMenu/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="MainMenu/Exit" to="." method="_on_Exit_pressed"]
