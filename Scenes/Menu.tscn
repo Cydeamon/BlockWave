@@ -44,7 +44,7 @@ custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = SubResource( 2 )
-text = "SEttings"
+text = "Settings"
 flat = true
 align = 0
 
@@ -98,6 +98,7 @@ margin_right = 1027.0
 margin_bottom = 70.0
 max_value = 1.0
 value = 0.25
+increase_decrease_step = 0.1
 
 [node name="MusicVolume" type="Button" parent="SettingsMenu"]
 margin_top = 202.0
@@ -120,6 +121,7 @@ margin_right = 1027.0
 margin_bottom = 70.0
 max_value = 1.0
 value = 0.25
+increase_decrease_step = 0.1
 
 [node name="SoundsVolume" type="Button" parent="SettingsMenu"]
 margin_top = 303.0
@@ -142,7 +144,11 @@ margin_right = 1027.0
 margin_bottom = 70.0
 max_value = 1.0
 value = 0.25
+increase_decrease_step = 0.1
 
 [connection signal="pressed" from="MainMenu/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="pressed" from="MainMenu/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="MainMenu/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="gui_input" from="SettingsMenu/MasterVolume" to="." method="_on_menu_option_gui_input"]
+[connection signal="gui_input" from="SettingsMenu/MusicVolume" to="." method="_on_menu_option_gui_input"]
+[connection signal="gui_input" from="SettingsMenu/SoundsVolume" to="." method="_on_menu_option_gui_input"]
