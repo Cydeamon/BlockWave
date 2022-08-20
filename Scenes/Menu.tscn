@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/fonts/Road_Rage.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/ProgressBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Menu.gd" type="Script" id=3]
+[ext_resource path="res://assets/checkbox_checked.png" type="Texture" id=4]
+[ext_resource path="res://assets/checkbox.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -62,12 +64,12 @@ align = 0
 
 [node name="SettingsMenu" type="VBoxContainer" parent="."]
 visible = false
-margin_right = 1066.0
+margin_right = 1039.0
 margin_bottom = 508.0
 rect_pivot_offset = Vector2( -970, 0 )
 
 [node name="Back" type="Button" parent="SettingsMenu"]
-margin_right = 1066.0
+margin_right = 1039.0
 margin_bottom = 97.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
@@ -79,7 +81,7 @@ align = 0
 
 [node name="master_volume" type="Button" parent="SettingsMenu"]
 margin_top = 101.0
-margin_right = 1066.0
+margin_right = 1039.0
 margin_bottom = 198.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
@@ -93,15 +95,15 @@ align = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
-margin_top = 39.0
+margin_top = 31.0
 margin_right = 1027.0
-margin_bottom = 70.0
+margin_bottom = 62.0
 min_value = -60.0
 increase_decrease_step = 5.0
 
 [node name="music_volume" type="Button" parent="SettingsMenu"]
 margin_top = 202.0
-margin_right = 1066.0
+margin_right = 1039.0
 margin_bottom = 299.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
@@ -115,15 +117,15 @@ align = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
-margin_top = 39.0
+margin_top = 31.0
 margin_right = 1027.0
-margin_bottom = 70.0
+margin_bottom = 62.0
 min_value = -60.0
 increase_decrease_step = 5.0
 
 [node name="sounds_volume" type="Button" parent="SettingsMenu"]
 margin_top = 303.0
-margin_right = 1066.0
+margin_right = 1039.0
 margin_bottom = 400.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
@@ -137,15 +139,62 @@ align = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
-margin_top = 39.0
+margin_top = 31.0
 margin_right = 1027.0
-margin_bottom = 70.0
+margin_bottom = 62.0
 min_value = -60.0
 increase_decrease_step = 5.0
+
+[node name="fullscreen" type="Button" parent="SettingsMenu"]
+margin_top = 404.0
+margin_right = 1039.0
+margin_bottom = 501.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 3 )
+text = "Fullscreen"
+flat = true
+align = 0
+
+[node name="CheckBox" type="CheckBox" parent="SettingsMenu/fullscreen"]
+margin_left = 626.0
+margin_top = 28.0
+margin_right = 834.0
+margin_bottom = 236.0
+rect_scale = Vector2( 0.23, 0.23 )
+custom_icons/checked = ExtResource( 4 )
+custom_icons/unchecked = ExtResource( 5 )
+
+[node name="show_ghost" type="Button" parent="SettingsMenu"]
+margin_top = 505.0
+margin_right = 1039.0
+margin_bottom = 602.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 3 )
+text = "Display ghost"
+flat = true
+align = 0
+
+[node name="CheckBox" type="CheckBox" parent="SettingsMenu/show_ghost"]
+margin_left = 626.0
+margin_top = 28.0
+margin_right = 834.0
+margin_bottom = 236.0
+rect_scale = Vector2( 0.23, 0.23 )
+custom_icons/checked = ExtResource( 4 )
+custom_icons/unchecked = ExtResource( 5 )
 
 [connection signal="pressed" from="MainMenu/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="pressed" from="MainMenu/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="MainMenu/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="pressed" from="SettingsMenu/Back" to="." method="_on_Back_pressed"]
 [connection signal="gui_input" from="SettingsMenu/master_volume" to="." method="_on_menu_option_gui_input"]
 [connection signal="gui_input" from="SettingsMenu/music_volume" to="." method="_on_menu_option_gui_input"]
 [connection signal="gui_input" from="SettingsMenu/sounds_volume" to="." method="_on_menu_option_gui_input"]
+[connection signal="gui_input" from="SettingsMenu/fullscreen" to="." method="_on_menu_option_gui_input"]
+[connection signal="toggled" from="SettingsMenu/fullscreen/CheckBox" to="." method="_on_CheckBox_toggled"]
+[connection signal="gui_input" from="SettingsMenu/show_ghost" to="." method="_on_menu_option_gui_input"]
+[connection signal="toggled" from="SettingsMenu/show_ghost/CheckBox" to="." method="_on_CheckBox_toggled"]

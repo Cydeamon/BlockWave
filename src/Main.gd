@@ -73,6 +73,12 @@ func read_settings_from_db():
 		if param == "sounds_volume":
 			update_menu_option_progressbar_value(param, settings[param])
 			$MasterVolume/SoundsPlayer.volume_db = settings[param]
+		if param == "fullscreen":
+			$Menu/menu_options/SettingsMenu/fullscreen/CheckBox.pressed = settings[param] == "True"
+			OS.window_fullscreen = settings[param] == "True"
+		if param == "show_ghost":
+			$Menu/menu_options/SettingsMenu/show_ghost/CheckBox.pressed = settings[param] == "True"
+	
 	
 
 
@@ -485,9 +491,11 @@ func update_text_info():
 func _unhandled_input(event):
 	if !quick_drop_mode:
 		if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
-			close_menu()
-			$MasterVolume/MusicPlayer.stream = gameplay_music
-			$MasterVolume/MusicPlayer.play()
+			if !$Menu/menu_options._on_Back_pressed():
+				close_menu()
+				$MasterVolume/MusicPlayer.stream = gameplay_music
+				$MasterVolume/MusicPlayer.play()
+				$Game.visible = true
 		elif !menu_mode && event.is_action_pressed("ui_cancel"):
 			init_menu()
 		elif !menu_mode && !is_hold_used && event.is_action_pressed("hold"):
@@ -552,7 +560,7 @@ func process_repeatable_actions():
 
 
 func redraw_ghost_figure():
-	if int(settings["show_ghost"]):
+	if settings["show_ghost"]:
 		# Find fall position
 		clear_current_figure_position()
 		var x = current_figure_position.x
@@ -588,9 +596,7 @@ func redraw_ghost_figure():
 				y += 1
 
 		# Remove highlights
-		for i in gamefield.number_of_rows:
-			for j in gamefield.number_of_cells_in_row:
-				gamefield.get_node("cell_" + str(i) + "_" + str(j)).get_node("ghost_highlight").visible = false
+		clear_ghost()
 
 		# Draw highlights
 		for i in current_figure.size():
@@ -603,6 +609,11 @@ func redraw_ghost_figure():
 						cell.get_node("ghost_highlight").visible = true
 		
 		draw_current_figure()
+
+func clear_ghost():
+	for i in gamefield.number_of_rows:
+		for j in gamefield.number_of_cells_in_row:
+			gamefield.get_node("cell_" + str(i) + "_" + str(j)).get_node("ghost_highlight").visible = false
 
 func restart_step_timer():
 	$Game/step_timer.stop()
@@ -662,18 +673,28 @@ func _on_menu_options_start_game():
 
 
 func _on_menu_options_value_changed(menu_option, value):
+	update_settings_with_value(menu_option.name, value)
+
 	if menu_option.name == "master_volume":
-		update_settings_with_value(menu_option.name, value)
 		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), value)
 	if menu_option.name == "music_volume":
-		update_settings_with_value(menu_option.name, value)
 		$MasterVolume/MusicPlayer.volume_db = value
 	if menu_option.name == "sounds_volume":
-		update_settings_with_value(menu_option.name, value)
 		$MasterVolume/SoundsPlayer.volume_db = value
+	if menu_option.name == "fullscreen":
+		OS.window_fullscreen = value
+	if menu_option.name == "show_ghost":
+		if game_was_started:
+			if value: 
+				redraw_ghost_figure()
+			else: 
+				clear_ghost()
 
 
 func update_settings_with_value(name, value):
+	print(name)
+	print(value)
+	settings[name] = value
 	name = str(name)
 	value = "\"" + str(value) + "\""
 
