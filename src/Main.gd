@@ -63,7 +63,13 @@ func read_settings_from_db():
 	if sqlite_db.query("SELECT * FROM settings"):
 		settings = sqlite_db.query_result[0]
 
-	print(settings)
+	for param in settings:
+		if param == "master_volume":
+			update_menu_option_progressbar_value(param, settings[param])
+		if param == "music_volume":
+			update_menu_option_progressbar_value(param, settings[param])
+		if param == "sounds_volume":
+			update_menu_option_progressbar_value(param, settings[param])
 	
 
 
@@ -650,3 +656,22 @@ func _on_menu_options_start_game():
 		reset_game()
 
 	start_game()
+
+
+func _on_menu_options_value_changed(menu_option, value):
+	if menu_option.name == "master_volume":
+		update_settings_with_value(menu_option.name, value)
+	if menu_option.name == "music_volume":
+		update_settings_with_value(menu_option.name, value)
+	if menu_option.name == "sounds_volume":
+		update_settings_with_value(menu_option.name, value)
+
+
+func update_settings_with_value(name, value):
+	name = str(name)
+	value = "\"" + str(value) + "\""
+
+	sqlite_db.query("UPDATE settings SET " + name + " = " + value)
+
+func update_menu_option_progressbar_value(name, value):
+	$Menu/menu_options/SettingsMenu.get_node(name).get_node("ProgressBar").set_value(value)

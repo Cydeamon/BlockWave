@@ -87,7 +87,7 @@ script = ExtResource( 4 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 20
+frame = 14
 playing = true
 centered = false
 
@@ -205,5 +205,6 @@ anims/levelup = SubResource( 4 )
 [connection signal="timeout" from="Game/step_timer" to="." method="step"]
 [connection signal="exit" from="Menu/menu_options" to="." method="_on_menu_options_exit"]
 [connection signal="start_game" from="Menu/menu_options" to="." method="_on_menu_options_start_game"]
+[connection signal="value_changed" from="Menu/menu_options" to="." method="_on_menu_options_value_changed"]
 [connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]
 [connection signal="timeout" from="input_timer" to="." method="_on_input_timer_timeout"]
