@@ -1,7 +1,6 @@
 extends Control
 
 signal exit
-signal settings
 signal start_game
 signal value_changed
 
@@ -23,7 +22,6 @@ func _on_Settings_pressed():
 	activate_first()
 	$MainMenu.hide()
 	$SettingsMenu.show()
-	emit_signal("settings")
 
 func _on_StartGame_pressed():
 	emit_signal("start_game")
@@ -64,3 +62,10 @@ func _on_Back_pressed():
 func _on_CheckBox_toggled(button_pressed:bool):	
 	emit_signal("value_changed", active_menu.get_focus_owner().get_parent(), button_pressed)
 
+
+func _on_Controls_pressed():
+	print("controls")
+	active_menu_tree.push_front(active_menu)
+	active_menu.hide()
+	active_menu = $ControlsMenu
+	$ControlsMenu.show()

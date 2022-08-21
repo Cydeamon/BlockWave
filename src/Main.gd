@@ -40,12 +40,16 @@ var current_figure_position = {
 
 var rng
 
+var keybinds = {}
+
 ####################################################################################################
 ############################################ GAME LOGIC ############################################
 ####################################################################################################
 
 func _ready():
 	read_settings_from_db()
+	read_keybinds_from_db()
+	apply_keybinds()
 
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
@@ -80,7 +84,36 @@ func read_settings_from_db():
 			$Menu/menu_options/SettingsMenu/show_ghost/CheckBox.pressed = settings[param] == "True"
 	
 	
+func read_keybinds_from_db():
+	if sqlite_db.query("SELECT * FROM binds"):
+		var data = sqlite_db.query_result
 
+		for param in data:
+			keybinds[param['action_name']] = {
+				key_codes = param["key_codes"].split(","),
+				joy_buttons = param["joy_buttons"].split(","),
+			}
+	else:
+		print("CAN'T READ KEYBINDS FROM DB")
+		get_tree().quit()
+
+func apply_keybinds():
+	for action in keybinds.keys():
+		var action_list = InputMap.get_action_list(action)
+
+		if !action_list.empty():
+			for event in action_list:
+				InputMap.action_erase_event(action, event)
+			
+			for keycode in keybinds[action]["key_codes"]:
+				var new_key = InputEventKey.new()
+				new_key.set_scancode(int(keycode))
+				InputMap.action_add_event(action, new_key)
+				
+			for joy_button_code in keybinds[action]["joy_buttons"]:
+				var new_key = InputEventJoypadButton.new()
+				new_key.set_button_index(int(joy_button_code))
+				InputMap.action_add_event(action, new_key)
 
 func reset_game():
 	score = 0
@@ -692,8 +725,6 @@ func _on_menu_options_value_changed(menu_option, value):
 
 
 func update_settings_with_value(name, value):
-	print(name)
-	print(value)
 	settings[name] = value
 	name = str(name)
 	value = "\"" + str(value) + "\""
