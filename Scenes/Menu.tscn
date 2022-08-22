@@ -29,9 +29,10 @@ margin_bottom = 1.0
 script = ExtResource( 3 )
 
 [node name="MainMenu" type="VBoxContainer" parent="."]
-margin_top = 200.0
-margin_right = 1066.0
-margin_bottom = 708.0
+margin_left = 80.0
+margin_top = 472.0
+margin_right = 1146.0
+margin_bottom = 980.0
 rect_pivot_offset = Vector2( -970, 0 )
 focus_mode = 2
 
@@ -72,8 +73,10 @@ align = 0
 
 [node name="SettingsMenu" type="VBoxContainer" parent="."]
 visible = false
-margin_right = 1039.0
-margin_bottom = 508.0
+margin_left = 80.0
+margin_top = 176.0
+margin_right = 1119.0
+margin_bottom = 795.0
 rect_pivot_offset = Vector2( -970, 0 )
 
 [node name="Back" type="Button" parent="SettingsMenu"]
@@ -209,8 +212,10 @@ custom_icons/unchecked = ExtResource( 5 )
 
 [node name="ControlsMenu" type="VBoxContainer" parent="."]
 visible = false
-margin_right = 1909.0
-margin_bottom = 508.0
+margin_left = 80.0
+margin_top = 176.0
+margin_right = 1989.0
+margin_bottom = 860.0
 rect_pivot_offset = Vector2( -970, 0 )
 
 [node name="Back" type="Button" parent="ControlsMenu"]
@@ -480,6 +485,25 @@ flat = true
 align = 0
 icon_align = 1
 
+[node name="ControlsWaitingInputPopup" type="ColorRect" parent="."]
+visible = false
+margin_left = 710.0
+margin_top = 389.0
+margin_right = 1210.0
+margin_bottom = 689.0
+color = Color( 0, 0, 0, 0.858824 )
+
+[node name="label" type="Label" parent="ControlsWaitingInputPopup"]
+margin_left = 2.0
+margin_top = 6.0
+margin_right = 502.0
+margin_bottom = 298.0
+custom_fonts/font = SubResource( 1 )
+text = "Press any
+button"
+align = 1
+valign = 1
+
 [connection signal="pressed" from="MainMenu/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="pressed" from="MainMenu/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="MainMenu/Exit" to="." method="_on_Exit_pressed"]
@@ -493,3 +517,31 @@ icon_align = 1
 [connection signal="gui_input" from="SettingsMenu/show_ghost" to="." method="_on_menu_option_gui_input"]
 [connection signal="toggled" from="SettingsMenu/show_ghost/CheckBox" to="." method="_on_CheckBox_toggled"]
 [connection signal="pressed" from="ControlsMenu/Back" to="." method="_on_Back_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/move_left/keyboard" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/move_left/keyboard" to="." method="_on_keyboard_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/move_left/joy_button" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/move_left/joy_button" to="." method="_on_joy_button_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/move_right/keyboard" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/move_right/keyboard" to="." method="_on_keyboard_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/move_right/joy_button" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/move_right/joy_button" to="." method="_on_joy_button_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/move_down/keyboard" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/move_down/keyboard" to="." method="_on_keyboard_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/move_down/joy_button" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/move_down/joy_button" to="." method="_on_joy_button_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/rotate_left/keyboard" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/rotate_left/keyboard" to="." method="_on_keyboard_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/rotate_left/joy_button" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/rotate_left/joy_button" to="." method="_on_joy_button_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/rotate_right/keyboard" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/rotate_right/keyboard" to="." method="_on_keyboard_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/rotate_right/joy_button" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/rotate_right/joy_button" to="." method="_on_joy_button_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/drop/keyboard" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/drop/keyboard" to="." method="_on_keyboard_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/drop/joy_button" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/drop/joy_button" to="." method="_on_joy_button_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/hold/keyboard" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/hold/keyboard" to="." method="_on_keyboard_bind_pressed"]
+[connection signal="gui_input" from="ControlsMenu/Inputs/hold/joy_button" to="." method="_on_controls_input"]
+[connection signal="pressed" from="ControlsMenu/Inputs/hold/joy_button" to="." method="_on_joy_button_bind_pressed"]

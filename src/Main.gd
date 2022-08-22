@@ -98,6 +98,14 @@ func read_keybinds_from_db():
 		print("CAN'T READ KEYBINDS FROM DB")
 		get_tree().quit()
 
+		
+func write_keybinds_to_db():
+	for action in keybinds.keys():
+		var keycodes = PoolStringArray(keybinds[action]['key_codes']).join(",")
+		var joybuttons = PoolStringArray(keybinds[action]['joy_buttons']).join(",")
+		sqlite_db.query("UPDATE binds SET key_codes='" + keycodes + "' WHERE action_name = '" + action + "'" )
+		sqlite_db.query("UPDATE binds SET joy_buttons='" + joybuttons + "' WHERE action_name = '" + action + "'" )
+
 func apply_keybinds():
 	for action in keybinds.keys():
 		var action_list = InputMap.get_action_list(action)
@@ -115,6 +123,27 @@ func apply_keybinds():
 				var new_key = InputEventJoypadButton.new()
 				new_key.set_button_index(int(joy_button_code))
 				InputMap.action_add_event(action, new_key)
+
+
+func remove_keybinds_doubles():
+	var keys_used = []
+	var joy_buttons_used = []
+
+	for action in keybinds.keys():
+		var action_list = InputMap.get_action_list(action)
+
+		if !action_list.empty():			
+			for keycode in keybinds[action]["key_codes"]:
+				if keys_used.has(keycode):
+					keybinds[action]["key_codes"] = []
+				else: 
+					keys_used.push_back(keycode)
+				
+			for joy_button_code in keybinds[action]["joy_buttons"]:
+				if joy_buttons_used.has(joy_button_code):
+					keybinds[action]["joy_buttons"] = []
+				else: 
+					joy_buttons_used.push_back(joy_button_code)
 
 func reset_game():
 	score = 0
@@ -689,6 +718,8 @@ func init_menu():
 	else: 
 		$Menu/menu_options/MainMenu/StartGame.text = "Start game"
 
+	$Menu/menu_options.activate_first()
+
 func close_menu():
 	$Menu.visible = false
 	menu_mode = false
@@ -737,3 +768,17 @@ func update_settings_with_value(name, value):
 
 func update_menu_option_progressbar_value(name, value):
 	$Menu/menu_options/SettingsMenu.get_node(name).get_node("ProgressBar").set_value(value)
+
+
+func _on_menu_options_keybinds_change(button_type, action, button_code):
+	if keybinds[action]:
+		if button_type == $Menu/menu_options.ButtonType.JOY:
+			keybinds[action]["joy_buttons"] = [str(button_code)]
+		elif button_type == $Menu/menu_options.ButtonType.KEYBOARD:
+			keybinds[action]["key_codes"] = [str(button_code)]
+
+		remove_keybinds_doubles()
+		apply_keybinds()
+		write_keybinds_to_db()
+		$Menu/menu_options.update_key_binds_ui(keybinds)
+

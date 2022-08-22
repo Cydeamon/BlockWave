@@ -87,7 +87,7 @@ script = ExtResource( 4 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 3
+frame = 16
 playing = true
 centered = false
 
@@ -182,10 +182,8 @@ texture = ExtResource( 5 )
 centered = false
 
 [node name="menu_options" parent="Menu" instance=ExtResource( 3 )]
-margin_left = 70.0
-margin_top = 175.0
-margin_right = 70.0
-margin_bottom = 175.0
+margin_top = 0.0
+margin_bottom = 0.0
 
 [node name="input_timer" type="Timer" parent="."]
 wait_time = 0.12
@@ -204,6 +202,7 @@ autoplay = true
 
 [connection signal="timeout" from="Game/step_timer" to="." method="step"]
 [connection signal="exit" from="Menu/menu_options" to="." method="_on_menu_options_exit"]
+[connection signal="keybinds_change" from="Menu/menu_options" to="." method="_on_menu_options_keybinds_change"]
 [connection signal="start_game" from="Menu/menu_options" to="." method="_on_menu_options_start_game"]
 [connection signal="value_changed" from="Menu/menu_options" to="." method="_on_menu_options_value_changed"]
 [connection signal="timeout" from="input_timer" to="." method="_on_input_timer_timeout"]
