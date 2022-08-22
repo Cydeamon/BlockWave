@@ -50,6 +50,7 @@ func _ready():
 	read_settings_from_db()
 	read_keybinds_from_db()
 	apply_keybinds()
+	$Menu/menu_options.update_key_binds_ui(keybinds)
 
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
@@ -73,10 +74,10 @@ func read_settings_from_db():
 			AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), settings[param])
 		if param == "music_volume":
 			update_menu_option_progressbar_value(param, settings[param])
-			$MasterVolume/MusicPlayer.volume_db = settings[param]
+			$MusicPlayer.volume_db = settings[param]
 		if param == "sounds_volume":
 			update_menu_option_progressbar_value(param, settings[param])
-			$MasterVolume/SoundsPlayer.volume_db = settings[param]
+			$SoundsPlayer.volume_db = settings[param]
 		if param == "fullscreen":
 			$Menu/menu_options/SettingsMenu/fullscreen/CheckBox.pressed = settings[param] == "True"
 			OS.window_fullscreen = settings[param] == "True"
@@ -124,8 +125,8 @@ func reset_game():
 func start_game():
 	close_menu()
 	game_was_started = true
-	$MasterVolume/MusicPlayer.stream = gameplay_music
-	$MasterVolume/MusicPlayer.play()
+	$MusicPlayer.stream = gameplay_music
+	$MusicPlayer.play()
 	$Game.visible = true
 
 
@@ -179,8 +180,8 @@ func gameover():
 	$Menu/bg_gameover/statistics.text = $Game/UI/text_info.text
 
 func play_sound(sound):
-	$MasterVolume/SoundsPlayer.stream = sound
-	$MasterVolume/SoundsPlayer.play()
+	$SoundsPlayer.stream = sound
+	$SoundsPlayer.play()
 
 func get_full_lines():
 	full_lines = []
@@ -384,7 +385,7 @@ func fix_figure():
 
 
 func _on_MusicPlayer_finished():
-	$MasterVolume/MusicPlayer.play(0)
+	$MusicPlayer.play(0)
 
 func rotate_current_figure_left(draw = true):
 	if draw:
@@ -526,8 +527,8 @@ func _unhandled_input(event):
 		if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
 			if !$Menu/menu_options._on_Back_pressed():
 				close_menu()
-				$MasterVolume/MusicPlayer.stream = gameplay_music
-				$MasterVolume/MusicPlayer.play()
+				$MusicPlayer.stream = gameplay_music
+				$MusicPlayer.play()
 				$Game.visible = true
 		elif !menu_mode && event.is_action_pressed("ui_cancel"):
 			init_menu()
@@ -679,8 +680,8 @@ func init_menu():
 	$Menu.visible = true
 	$Menu/bg_gameover.visible = false
 
-	$MasterVolume/MusicPlayer.stream = menu_music
-	$MasterVolume/MusicPlayer.play()
+	$MusicPlayer.stream = menu_music
+	$MusicPlayer.play()
 	$Game/step_timer.stop()
 
 	if game_was_started:
@@ -711,9 +712,9 @@ func _on_menu_options_value_changed(menu_option, value):
 	if menu_option.name == "master_volume":
 		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), value)
 	if menu_option.name == "music_volume":
-		$MasterVolume/MusicPlayer.volume_db = value
+		$MusicPlayer.volume_db = value
 	if menu_option.name == "sounds_volume":
-		$MasterVolume/SoundsPlayer.volume_db = value
+		$SoundsPlayer.volume_db = value
 	if menu_option.name == "fullscreen":
 		OS.window_fullscreen = value
 	if menu_option.name == "show_ghost":
