@@ -20,6 +20,7 @@ var is_hold_used = false
 var drop_step_duration = 0.02
 var clear_step_duration = 0.1
 var step_duration
+var default_step_duration = 0.5
 var quick_drop_mode = false
 var gamefield
 
@@ -150,6 +151,9 @@ func reset_game():
 	level = 1
 	lines_clear_total = 0
 	gamefield.clear_field()
+	$Game/step_timer.wait_time = default_step_duration
+	step_duration = default_step_duration
+
 
 func start_game():
 	close_menu()
@@ -516,7 +520,7 @@ func update_score_and_level(lines_clear = 0):
 	
 	if (lines_clear_total / 30) + 1 > level: 
 		level = (lines_clear_total / 30) + 1
-		step_duration /= 2
+		step_duration /= 1.4
 		$Game/step_timer.wait_time = step_duration 
 
 	if level > prev_level:
