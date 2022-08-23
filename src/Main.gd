@@ -270,7 +270,7 @@ func spawn_current_figure_at_the_top():
 
 
 func pick_next_figure():
-	var figure_index = rng.randi() % 6 + 1
+	var figure_index = (rng.randi() % 7) + 1
 
 	# 1 - Red I     #FF0000
 	# 2 - Blue O    #0000FF
