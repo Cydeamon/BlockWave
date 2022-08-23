@@ -580,6 +580,7 @@ func _unhandled_input(event):
 
 			$Game/UI/Hold/hold_figure.set_cells_colors(hold_figure)
 			spawn_current_figure_at_the_top()
+			redraw_ghost_figure()
 			
 		if game_was_started && is_figure_falling:
 			if event.is_action_pressed("rotate_left"):

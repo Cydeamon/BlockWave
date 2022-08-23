@@ -18,6 +18,7 @@ var keyboard_buttons_icons = {
 	keyboard_esc 		= preload("res://assets/inputs/keyboard-esc.png"),
 	keyboard_shift 		= preload("res://assets/inputs/keyboard-shift.png"),
 	keyboard_tab 		= preload("res://assets/inputs/keyboard-tab.png"),
+	keyboard_space 		= preload("res://assets/inputs/keyboard-space.png"),
 	keyboard_default 	= preload("res://assets/inputs/keyboard-button.png")
 }
 
@@ -69,6 +70,9 @@ func update_key_binds_ui(keybinds):
 				action_node.get_node("keyboard").text = ""
 			elif key_name == "Tab":
 				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_tab"]
+				action_node.get_node("keyboard").text = ""
+			elif key_name == "Space":
+				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_space"]
 				action_node.get_node("keyboard").text = ""
 			else:
 				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_default"]
