@@ -12,6 +12,15 @@ var waiting_button_press = false
 var waiting_button_type
 var ignore_next_accept_action = false
 
+var keyboard_buttons_icons = {
+	keyboard_alt 		= preload("res://assets/inputs/keyboard-alt.png"),
+	keyboard_ctrl 		= preload("res://assets/inputs/keyboard-ctrl.png"),
+	keyboard_esc 		= preload("res://assets/inputs/keyboard-esc.png"),
+	keyboard_shift 		= preload("res://assets/inputs/keyboard-shift.png"),
+	keyboard_tab 		= preload("res://assets/inputs/keyboard-tab.png"),
+	keyboard_default 	= preload("res://assets/inputs/keyboard-button.png")
+}
+
 var controller_buttons_icons = {
 	joy_btn_0 = preload("res://assets/inputs/joy-button-a.png"),
 	joy_btn_1 = preload("res://assets/inputs/joy-button-b.png"),
@@ -29,6 +38,9 @@ var controller_buttons_icons = {
 	joy_btn_15 = preload("res://assets/inputs/joy-button-dpad-right.png")
 }
 
+
+
+
 func _ready():
 	$MainMenu.show()
 	active_menu = $MainMenu
@@ -40,7 +52,26 @@ func update_key_binds_ui(keybinds):
 
 		# Keyboard button
 		if keybinds[action]['key_codes'].size():
-			action_node.get_node("keyboard").text = OS.get_scancode_string(int(keybinds[action]['key_codes'][0]))
+			var key_name = OS.get_scancode_string(int(keybinds[action]['key_codes'][0]))
+			action_node.get_node("keyboard").text = key_name
+
+			if key_name == "Alt":
+				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_alt"]
+				action_node.get_node("keyboard").text = ""
+			elif key_name == "Control":
+				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_ctrl"]
+				action_node.get_node("keyboard").text = ""
+			elif key_name == "Escape":
+				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_esc"]
+				action_node.get_node("keyboard").text = ""
+			elif key_name == "Shift":
+				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_shift"]
+				action_node.get_node("keyboard").text = ""
+			elif key_name == "Tab":
+				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_tab"]
+				action_node.get_node("keyboard").text = ""
+			else:
+				action_node.get_node("keyboard").icon = keyboard_buttons_icons["keyboard_default"]
 
 			if action_node.get_node("keyboard").text == "Left":
 				action_node.get_node("keyboard").text = "←"
