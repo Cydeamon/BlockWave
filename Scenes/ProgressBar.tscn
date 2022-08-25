@@ -43,3 +43,11 @@ texture = ExtResource( 1 )
 modulate = Color( 1, 1, 1, 0.568627 )
 position = Vector2( 748, 76 )
 texture = ExtResource( 4 )
+
+[node name="click_trigger" type="ColorRect" parent="."]
+pause_mode = 2
+margin_right = 375.0
+margin_bottom = 40.0
+color = Color( 1, 1, 1, 0 )
+
+[connection signal="gui_input" from="click_trigger" to="." method="_on_click_trigger_gui_input"]

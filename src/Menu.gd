@@ -129,10 +129,8 @@ func _on_menu_option_gui_input(event:InputEvent):
 		if progressBar:
 			if event.is_action_pressed("ui_right"):
 				progressBar.increase()
-				emit_signal("value_changed", focused_menu_option, progressBar.value)
 			if event.is_action_pressed("ui_left"):
 				progressBar.decrease()
-				emit_signal("value_changed", focused_menu_option, progressBar.value)
 		elif checkbox:
 			if event.is_action_pressed("ui_accept"):
 				checkbox.pressed = !checkbox.pressed
@@ -210,3 +208,7 @@ func find_by_class(node: Node, className : String, result : Array) -> void:
 
 func _on_menu_option_mouse_entered(obj):
 	obj.grab_focus()
+
+
+func _on_ProgressBar_value_changed(object, value):
+	emit_signal("value_changed", active_menu.get_focus_owner(), value)
