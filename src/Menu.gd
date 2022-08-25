@@ -47,6 +47,13 @@ func _ready():
 	active_menu = $MainMenu
 	activate_first()
 
+	# Make buttons take focus on hover
+	var buttons = []
+	find_by_class(self, "Button", buttons)
+
+	for button in buttons:
+		button.connect("mouse_entered", self, "_on_menu_option_mouse_entered", [button])
+
 func update_key_binds_ui(keybinds):
 	for action in keybinds.keys():
 		var action_node = $ControlsMenu/Inputs.get_node(action)
@@ -194,3 +201,12 @@ func reset_waiting_for_button():
 	$ControlsWaitingInputPopup.hide()
 	waiting_button_press = false
 	waiting_button_type = null
+
+func find_by_class(node: Node, className : String, result : Array) -> void:
+	if node.is_class(className) :
+		result.push_back(node)
+	for child in node.get_children():
+		find_by_class(child, className, result)
+
+func _on_menu_option_mouse_entered(obj):
+	obj.grab_focus()
