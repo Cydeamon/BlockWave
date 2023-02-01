@@ -122,6 +122,10 @@ hold={
  ]
 }
 
+[mono]
+
+project/assembly_name="Tetra Wave-godot"
+
 [physics]
 
 common/enable_pause_aware_picking=true
