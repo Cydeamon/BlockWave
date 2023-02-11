@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://assets/fonts/Road_Rage.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/fonts/Commando.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/ProgressBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Menu.gd" type="Script" id=3]
 [ext_resource path="res://assets/checkbox_checked.png" type="Texture" id=4]
@@ -39,7 +39,7 @@ focus_mode = 2
 
 [node name="StartGame" type="Button" parent="MainMenu"]
 margin_right = 1066.0
-margin_bottom = 85.0
+margin_bottom = 50.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -49,9 +49,9 @@ flat = true
 align = 0
 
 [node name="Settings" type="Button" parent="MainMenu"]
-margin_top = 89.0
+margin_top = 54.0
 margin_right = 1066.0
-margin_bottom = 174.0
+margin_bottom = 104.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -61,9 +61,9 @@ flat = true
 align = 0
 
 [node name="Exit" type="Button" parent="MainMenu"]
-margin_top = 178.0
+margin_top = 108.0
 margin_right = 1066.0
-margin_bottom = 263.0
+margin_bottom = 158.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -82,7 +82,7 @@ rect_pivot_offset = Vector2( -970, 0 )
 
 [node name="Back" type="Button" parent="SettingsMenu"]
 margin_right = 1039.0
-margin_bottom = 85.0
+margin_bottom = 50.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -92,9 +92,9 @@ flat = true
 align = 0
 
 [node name="Controls" type="Button" parent="SettingsMenu"]
-margin_top = 89.0
+margin_top = 54.0
 margin_right = 1039.0
-margin_bottom = 174.0
+margin_bottom = 104.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -104,9 +104,9 @@ flat = true
 align = 0
 
 [node name="master_volume" type="Button" parent="SettingsMenu"]
-margin_top = 178.0
+margin_top = 108.0
 margin_right = 1039.0
-margin_bottom = 263.0
+margin_bottom = 158.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -116,19 +116,20 @@ flat = true
 align = 0
 
 [node name="ProgressBar" parent="SettingsMenu/master_volume" instance=ExtResource( 2 )]
+light_mask = 4
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
-margin_top = 31.0
+margin_top = -2.0
 margin_right = 1027.0
-margin_bottom = 62.0
+margin_bottom = 29.0
 min_value = -60.0
 increase_decrease_step = 5.0
 
 [node name="music_volume" type="Button" parent="SettingsMenu"]
-margin_top = 267.0
+margin_top = 162.0
 margin_right = 1039.0
-margin_bottom = 352.0
+margin_bottom = 212.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -138,19 +139,21 @@ flat = true
 align = 0
 
 [node name="ProgressBar" parent="SettingsMenu/music_volume" instance=ExtResource( 2 )]
+show_behind_parent = true
+light_mask = 2
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
-margin_top = 31.0
+margin_top = -2.0
 margin_right = 1027.0
-margin_bottom = 62.0
+margin_bottom = 29.0
 min_value = -60.0
 increase_decrease_step = 5.0
 
 [node name="sounds_volume" type="Button" parent="SettingsMenu"]
-margin_top = 356.0
+margin_top = 216.0
 margin_right = 1039.0
-margin_bottom = 441.0
+margin_bottom = 266.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -160,19 +163,21 @@ flat = true
 align = 0
 
 [node name="ProgressBar" parent="SettingsMenu/sounds_volume" instance=ExtResource( 2 )]
+show_behind_parent = true
+light_mask = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 630.0
-margin_top = 31.0
+margin_top = -2.0
 margin_right = 1027.0
-margin_bottom = 62.0
+margin_bottom = 29.0
 min_value = -60.0
 increase_decrease_step = 5.0
 
 [node name="fullscreen" type="Button" parent="SettingsMenu"]
-margin_top = 445.0
+margin_top = 270.0
 margin_right = 1039.0
-margin_bottom = 530.0
+margin_bottom = 320.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -182,18 +187,19 @@ flat = true
 align = 0
 
 [node name="CheckBox" type="CheckBox" parent="SettingsMenu/fullscreen"]
+light_mask = 0
 margin_left = 626.0
-margin_top = 28.0
+margin_top = -4.0
 margin_right = 834.0
-margin_bottom = 236.0
+margin_bottom = 204.0
 rect_scale = Vector2( 0.23, 0.23 )
 custom_icons/checked = ExtResource( 4 )
 custom_icons/unchecked = ExtResource( 5 )
 
 [node name="show_ghost" type="Button" parent="SettingsMenu"]
-margin_top = 534.0
+margin_top = 324.0
 margin_right = 1039.0
-margin_bottom = 619.0
+margin_bottom = 374.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -204,9 +210,9 @@ align = 0
 
 [node name="CheckBox" type="CheckBox" parent="SettingsMenu/show_ghost"]
 margin_left = 626.0
-margin_top = 28.0
+margin_top = -4.0
 margin_right = 834.0
-margin_bottom = 236.0
+margin_bottom = 204.0
 rect_scale = Vector2( 0.23, 0.23 )
 custom_icons/checked = ExtResource( 4 )
 custom_icons/unchecked = ExtResource( 5 )
@@ -221,7 +227,7 @@ rect_pivot_offset = Vector2( -970, 0 )
 
 [node name="Back" type="Button" parent="ControlsMenu"]
 margin_right = 1909.0
-margin_bottom = 85.0
+margin_bottom = 50.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -231,28 +237,29 @@ flat = true
 align = 0
 
 [node name="Spacing" type="Label" parent="ControlsMenu"]
-margin_top = 89.0
+margin_top = 54.0
 margin_right = 1909.0
-margin_bottom = 103.0
+margin_bottom = 68.0
 
 [node name="Inputs" type="GridContainer" parent="ControlsMenu"]
-margin_top = 107.0
+margin_top = 72.0
 margin_right = 1909.0
-margin_bottom = 684.0
+margin_bottom = 566.0
 grow_horizontal = 2
 grow_vertical = 2
+custom_constants/vseparation = 31
 
 [node name="move_left" type="Label" parent="ControlsMenu/Inputs"]
-margin_right = 341.0
-margin_bottom = 79.0
+margin_right = 281.0
+margin_bottom = 44.0
 custom_fonts/font = SubResource( 1 )
 text = "Move left"
 
 [node name="keyboard" type="Button" parent="ControlsMenu/Inputs/move_left"]
 margin_left = 511.0
-margin_top = 11.0
+margin_top = -19.0
 margin_right = 1107.0
-margin_bottom = 145.0
+margin_bottom = 115.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
@@ -264,10 +271,10 @@ flat = true
 icon_align = 1
 
 [node name="joy_button" type="Button" parent="ControlsMenu/Inputs/move_left"]
-margin_left = 878.0
-margin_top = 14.0
-margin_right = 1490.0
-margin_bottom = 148.0
+margin_left = 790.0
+margin_top = -16.0
+margin_right = 1402.0
+margin_bottom = 118.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
@@ -277,17 +284,17 @@ align = 0
 icon_align = 1
 
 [node name="move_right" type="Label" parent="ControlsMenu/Inputs"]
-margin_top = 83.0
-margin_right = 341.0
-margin_bottom = 162.0
+margin_top = 75.0
+margin_right = 281.0
+margin_bottom = 119.0
 custom_fonts/font = SubResource( 1 )
 text = "Move right"
 
 [node name="keyboard" type="Button" parent="ControlsMenu/Inputs/move_right"]
 margin_left = 511.0
-margin_top = 11.0
+margin_top = -17.0
 margin_right = 1107.0
-margin_bottom = 145.0
+margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
@@ -299,10 +306,10 @@ flat = true
 icon_align = 1
 
 [node name="joy_button" type="Button" parent="ControlsMenu/Inputs/move_right"]
-margin_left = 878.0
-margin_top = 14.0
-margin_right = 1490.0
-margin_bottom = 148.0
+margin_left = 790.0
+margin_top = -14.0
+margin_right = 1402.0
+margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
@@ -312,17 +319,17 @@ align = 0
 icon_align = 1
 
 [node name="move_down" type="Label" parent="ControlsMenu/Inputs"]
-margin_top = 166.0
-margin_right = 341.0
-margin_bottom = 245.0
+margin_top = 150.0
+margin_right = 281.0
+margin_bottom = 194.0
 custom_fonts/font = SubResource( 1 )
 text = "Move down"
 
 [node name="keyboard" type="Button" parent="ControlsMenu/Inputs/move_down"]
 margin_left = 511.0
-margin_top = 11.0
+margin_top = -17.0
 margin_right = 1107.0
-margin_bottom = 145.0
+margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
@@ -334,10 +341,10 @@ flat = true
 icon_align = 1
 
 [node name="joy_button" type="Button" parent="ControlsMenu/Inputs/move_down"]
-margin_left = 878.0
-margin_top = 14.0
-margin_right = 1490.0
-margin_bottom = 148.0
+margin_left = 790.0
+margin_top = -14.0
+margin_right = 1402.0
+margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
@@ -347,17 +354,17 @@ align = 0
 icon_align = 1
 
 [node name="rotate_left" type="Label" parent="ControlsMenu/Inputs"]
-margin_top = 249.0
-margin_right = 341.0
-margin_bottom = 328.0
+margin_top = 225.0
+margin_right = 281.0
+margin_bottom = 269.0
 custom_fonts/font = SubResource( 1 )
 text = "Rotate left"
 
 [node name="keyboard" type="Button" parent="ControlsMenu/Inputs/rotate_left"]
 margin_left = 511.0
-margin_top = 11.0
+margin_top = -17.0
 margin_right = 1107.0
-margin_bottom = 145.0
+margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
@@ -369,10 +376,10 @@ flat = true
 icon_align = 1
 
 [node name="joy_button" type="Button" parent="ControlsMenu/Inputs/rotate_left"]
-margin_left = 878.0
-margin_top = 14.0
-margin_right = 1490.0
-margin_bottom = 148.0
+margin_left = 790.0
+margin_top = -14.0
+margin_right = 1402.0
+margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
@@ -382,17 +389,17 @@ align = 0
 icon_align = 1
 
 [node name="rotate_right" type="Label" parent="ControlsMenu/Inputs"]
-margin_top = 332.0
-margin_right = 341.0
-margin_bottom = 411.0
+margin_top = 300.0
+margin_right = 281.0
+margin_bottom = 344.0
 custom_fonts/font = SubResource( 1 )
 text = "Rotate right"
 
 [node name="keyboard" type="Button" parent="ControlsMenu/Inputs/rotate_right"]
 margin_left = 511.0
-margin_top = 11.0
+margin_top = -17.0
 margin_right = 1107.0
-margin_bottom = 145.0
+margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
@@ -404,10 +411,10 @@ flat = true
 icon_align = 1
 
 [node name="joy_button" type="Button" parent="ControlsMenu/Inputs/rotate_right"]
-margin_left = 878.0
-margin_top = 14.0
-margin_right = 1490.0
-margin_bottom = 148.0
+margin_left = 790.0
+margin_top = -14.0
+margin_right = 1402.0
+margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
@@ -417,17 +424,17 @@ align = 0
 icon_align = 1
 
 [node name="drop" type="Label" parent="ControlsMenu/Inputs"]
-margin_top = 415.0
-margin_right = 341.0
-margin_bottom = 494.0
+margin_top = 375.0
+margin_right = 281.0
+margin_bottom = 419.0
 custom_fonts/font = SubResource( 1 )
 text = "Drop"
 
 [node name="keyboard" type="Button" parent="ControlsMenu/Inputs/drop"]
 margin_left = 511.0
-margin_top = 11.0
+margin_top = -17.0
 margin_right = 1107.0
-margin_bottom = 145.0
+margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
@@ -439,10 +446,10 @@ flat = true
 icon_align = 1
 
 [node name="joy_button" type="Button" parent="ControlsMenu/Inputs/drop"]
-margin_left = 878.0
-margin_top = 14.0
-margin_right = 1490.0
-margin_bottom = 148.0
+margin_left = 790.0
+margin_top = -14.0
+margin_right = 1402.0
+margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
@@ -452,17 +459,17 @@ align = 0
 icon_align = 1
 
 [node name="hold" type="Label" parent="ControlsMenu/Inputs"]
-margin_top = 498.0
-margin_right = 341.0
-margin_bottom = 577.0
+margin_top = 450.0
+margin_right = 281.0
+margin_bottom = 494.0
 custom_fonts/font = SubResource( 1 )
 text = "Hold"
 
 [node name="keyboard" type="Button" parent="ControlsMenu/Inputs/hold"]
 margin_left = 511.0
-margin_top = 11.0
+margin_top = -17.0
 margin_right = 1107.0
-margin_bottom = 145.0
+margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
@@ -474,10 +481,10 @@ flat = true
 icon_align = 1
 
 [node name="joy_button" type="Button" parent="ControlsMenu/Inputs/hold"]
-margin_left = 878.0
-margin_top = 14.0
-margin_right = 1490.0
-margin_bottom = 148.0
+margin_left = 790.0
+margin_top = -14.0
+margin_right = 1402.0
+margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )

@@ -12,6 +12,7 @@ var menu_music = preload("res://assets/sounds/menu_music.wav")
 var destroy_sound = preload("res://assets/sounds/destroy.wav")
 var hit_sound = preload("res://assets/sounds/hit.wav")
 var turn_sound = preload("res://assets/sounds/turn.wav")
+var music_volume;
 
 var menu_mode = true
 var game_was_started = false
@@ -40,7 +41,6 @@ var current_figure_position = {
 }
 
 var rng
-
 var keybinds = {}
 
 ####################################################################################################
@@ -60,7 +60,18 @@ func _ready():
 	step_duration = $Game/step_timer.wait_time
 	init_menu()
 	pick_next_figure()
+
+	$MenuMusicPlayer.volume_db = music_volume;
+	$GameplayMusicPlayer.volume_db = -80;
 		
+func _process(delta):
+	$MenuMusicPlayer.volume_db = lerp($MenuMusicPlayer.volume_db, music_volume, 2 * delta)
+
+	if menu_mode:
+		$GameplayMusicPlayer.volume_db = lerp($GameplayMusicPlayer.volume_db, -80, 1 * delta)
+	else:
+		$GameplayMusicPlayer.volume_db = lerp($GameplayMusicPlayer.volume_db, music_volume, 1 * delta)
+
 
 func read_settings_from_db():
 	sqlite_db = SQLite.new()
@@ -75,7 +86,13 @@ func read_settings_from_db():
 			AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), settings[param])
 		if param == "music_volume":
 			update_menu_option_progressbar_value(param, settings[param])
-			$MusicPlayer.volume_db = settings[param]
+			music_volume = settings[param]
+			
+			if game_was_started:
+				$GameplayMusicPlayer.volume_db = settings[param]
+			else:
+				$MenuMusicPlayer.volume_db = settings[param]
+				
 		if param == "sounds_volume":
 			update_menu_option_progressbar_value(param, settings[param])
 			$SoundsPlayer.volume_db = settings[param]
@@ -151,6 +168,8 @@ func reset_game():
 	level = 1
 	lines_clear_total = 0
 	gamefield.clear_field()
+
+	$Game/UI/Hold/hold_figure.clear_field()
 	$Game/step_timer.wait_time = default_step_duration
 	step_duration = default_step_duration
 
@@ -158,8 +177,6 @@ func reset_game():
 func start_game():
 	close_menu()
 	game_was_started = true
-	$MusicPlayer.stream = gameplay_music
-	$MusicPlayer.play()
 	$Game.visible = true
 
 
@@ -417,8 +434,6 @@ func fix_figure():
 	current_figure = []
 
 
-func _on_MusicPlayer_finished():
-	$MusicPlayer.play(0)
 
 func rotate_current_figure_left(draw = true):
 	if draw:
@@ -538,9 +553,9 @@ func update_score_and_level(lines_clear = 0):
 	update_text_info()
 
 func update_text_info():
-	var text = "Score:\t" + str(score) + "\n";
-	text += "Lines:\t" + str(lines_clear_total) + "\n";
-	text += "Level:\t" + str(level) + "\n";
+	var text = "Score: " + str(score) + "\n";
+	text += "Lines: " + str(lines_clear_total) + "\n";
+	text += "Level: " + str(level) + "\n";
 
 	$Game/UI/text_info.text = text
 							  
@@ -560,8 +575,6 @@ func _unhandled_input(event):
 		if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
 			if !$Menu/menu_options._on_Back_pressed():
 				close_menu()
-				$MusicPlayer.stream = gameplay_music
-				$MusicPlayer.play()
 				$Game.visible = true
 		elif !menu_mode && event.is_action_pressed("ui_cancel"):
 			init_menu()
@@ -714,8 +727,6 @@ func init_menu():
 	$Menu.visible = true
 	$Menu/bg_gameover.visible = false
 
-	$MusicPlayer.stream = menu_music
-	$MusicPlayer.play()
 	$Game/step_timer.stop()
 
 	if game_was_started:
@@ -748,7 +759,7 @@ func _on_menu_options_value_changed(menu_option, value):
 	if menu_option.name == "master_volume":
 		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), value)
 	if menu_option.name == "music_volume":
-		$MusicPlayer.volume_db = value
+		music_volume = value
 	if menu_option.name == "sounds_volume":
 		$SoundsPlayer.volume_db = value
 	if menu_option.name == "fullscreen":

@@ -37,7 +37,7 @@ func check_value():
 		value = min_value
 
 func recalc():
-	var width = $Node2D/Light2D.texture.get_width() - 270
+	var width = $Node2D/Light2D.texture.get_width()
 	var max_value_normalized = max_value - min_value
 	var value_normalized = value - min_value
 	var percentage = (value_normalized / max_value_normalized) * 100

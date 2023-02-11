@@ -1,6 +1,6 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=42 format=2]
 
-[ext_resource path="res://assets/fonts/Road_Rage.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/sounds/gameplay_music.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/GameFieldCells.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Menu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Main.gd" type="Script" id=4]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/gameover.png" type="Texture" id=6]
 [ext_resource path="res://assets/menuBackground.png" type="Texture" id=7]
 [ext_resource path="res://assets/retrowaveBackground/frame20.png" type="Texture" id=8]
+[ext_resource path="res://assets/fonts/Commando.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://assets/retrowaveBackground/frame10.png" type="Texture" id=10]
 [ext_resource path="res://assets/retrowaveBackground/frame3.png" type="Texture" id=11]
 [ext_resource path="res://assets/retrowaveBackground/frame4.png" type="Texture" id=12]
@@ -34,6 +35,7 @@
 [ext_resource path="res://assets/glow.png" type="Texture" id=33]
 [ext_resource path="res://assets/next.png" type="Texture" id=34]
 [ext_resource path="res://assets/levelup.png" type="Texture" id=35]
+[ext_resource path="res://Menu.tres" type="Theme" id=36]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -45,11 +47,11 @@ animations = [ {
 
 [sub_resource type="DynamicFont" id=2]
 size = 32
-font_data = ExtResource( 1 )
+font_data = ExtResource( 9 )
 
 [sub_resource type="DynamicFont" id=5]
 size = 64
-font_data = ExtResource( 1 )
+font_data = ExtResource( 9 )
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -87,7 +89,6 @@ script = ExtResource( 4 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 19
 playing = true
 centered = false
 
@@ -175,6 +176,14 @@ Level: 1"
 texture = ExtResource( 7 )
 centered = false
 
+[node name="Label" type="Label" parent="Menu/bg_menu"]
+margin_left = 84.0
+margin_top = 985.0
+margin_right = 1005.0
+margin_bottom = 1094.0
+theme = ExtResource( 36 )
+text = "CYDEAMON    2023"
+
 [node name="logo" type="Sprite" parent="Menu"]
 position = Vector2( 49, 33 )
 scale = Vector2( 0.480417, 0.480417 )
@@ -182,8 +191,8 @@ texture = ExtResource( 5 )
 centered = false
 
 [node name="menu_options" parent="Menu" instance=ExtResource( 3 )]
-margin_top = 0.0
-margin_bottom = 0.0
+margin_top = -1.0
+margin_bottom = -1.0
 
 [node name="input_timer" type="Timer" parent="."]
 wait_time = 0.12
@@ -193,7 +202,12 @@ autostart = true
 anims/RESET = SubResource( 3 )
 anims/levelup = SubResource( 4 )
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+[node name="GameplayMusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -80.0
+autoplay = true
+
+[node name="MenuMusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 29 )
 volume_db = -80.0
 autoplay = true
@@ -206,4 +220,5 @@ autoplay = true
 [connection signal="start_game" from="Menu/menu_options" to="." method="_on_menu_options_start_game"]
 [connection signal="value_changed" from="Menu/menu_options" to="." method="_on_menu_options_value_changed"]
 [connection signal="timeout" from="input_timer" to="." method="_on_input_timer_timeout"]
-[connection signal="finished" from="MusicPlayer" to="." method="_on_MusicPlayer_finished"]
+[connection signal="finished" from="GameplayMusicPlayer" to="." method="_on_MusicPlayer_finished"]
+[connection signal="finished" from="MenuMusicPlayer" to="." method="_on_MusicPlayer_finished"]
