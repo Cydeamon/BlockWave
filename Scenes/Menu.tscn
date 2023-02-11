@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/fonts/Commando.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/ProgressBar.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/inputs/joy-button-a.png" type="Texture" id=7]
 [ext_resource path="res://assets/fonts/consola.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://assets/MenuControlsHighlight.tres" type="StyleBox" id=9]
+[ext_resource path="res://CreditsTextStyle.tres" type="Theme" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 50
@@ -60,10 +61,22 @@ text = "Settings"
 flat = true
 align = 0
 
-[node name="Exit" type="Button" parent="MainMenu"]
+[node name="Credits" type="Button" parent="MainMenu"]
 margin_top = 108.0
 margin_right = 1066.0
 margin_bottom = 158.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 2 )
+text = "Credits"
+flat = true
+align = 0
+
+[node name="Exit" type="Button" parent="MainMenu"]
+margin_top = 162.0
+margin_right = 1066.0
+margin_bottom = 212.0
 custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
 custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
 custom_fonts/font = SubResource( 1 )
@@ -195,6 +208,7 @@ margin_bottom = 204.0
 rect_scale = Vector2( 0.23, 0.23 )
 custom_icons/checked = ExtResource( 4 )
 custom_icons/unchecked = ExtResource( 5 )
+custom_styles/focus = ExtResource( 9 )
 
 [node name="show_ghost" type="Button" parent="SettingsMenu"]
 margin_top = 324.0
@@ -216,6 +230,43 @@ margin_bottom = 204.0
 rect_scale = Vector2( 0.23, 0.23 )
 custom_icons/checked = ExtResource( 4 )
 custom_icons/unchecked = ExtResource( 5 )
+custom_styles/focus = ExtResource( 9 )
+
+[node name="CreditsMenu" type="VBoxContainer" parent="."]
+visible = false
+margin_left = 80.0
+margin_top = 176.0
+margin_right = 1119.0
+margin_bottom = 795.0
+rect_pivot_offset = Vector2( -970, 0 )
+
+[node name="Back" type="Button" parent="CreditsMenu"]
+margin_right = 1039.0
+margin_bottom = 50.0
+custom_colors/font_color_focus = Color( 0.968627, 0, 1, 1 )
+custom_colors/font_color_hover = Color( 0.968627, 0, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/focus = SubResource( 3 )
+text = "Back"
+flat = true
+align = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CreditsMenu"]
+margin_top = 54.0
+margin_right = 1039.0
+margin_bottom = 404.0
+rect_min_size = Vector2( 0, 350 )
+theme = ExtResource( 10 )
+text = "
+Retrowave background animation from RoyaltyFreeTube YouTube channel.
+commando font by defaulterror
+Every other asset of the game made by me.
+
+
+thank you for playing
+
+
+cydeamon 2023"
 
 [node name="ControlsMenu" type="VBoxContainer" parent="."]
 visible = false
@@ -261,6 +312,8 @@ margin_top = -19.0
 margin_right = 1107.0
 margin_bottom = 115.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_right = NodePath("../joy_button")
+focus_neighbour_bottom = NodePath("../../move_right/keyboard")
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
 custom_fonts/font = SubResource( 4 )
@@ -276,6 +329,8 @@ margin_top = -16.0
 margin_right = 1402.0
 margin_bottom = 118.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../keyboard")
+focus_neighbour_bottom = NodePath("../../move_right/joy_button")
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
 icon = ExtResource( 7 )
@@ -296,6 +351,9 @@ margin_top = -17.0
 margin_right = 1107.0
 margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_top = NodePath("../../move_left/keyboard")
+focus_neighbour_right = NodePath("../joy_button")
+focus_neighbour_bottom = NodePath("../../move_down/keyboard")
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
 custom_fonts/font = SubResource( 4 )
@@ -311,6 +369,9 @@ margin_top = -14.0
 margin_right = 1402.0
 margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../keyboard")
+focus_neighbour_top = NodePath("../../move_left/joy_button")
+focus_neighbour_bottom = NodePath("../../move_down/joy_button")
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
 icon = ExtResource( 7 )
@@ -331,6 +392,9 @@ margin_top = -17.0
 margin_right = 1107.0
 margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_top = NodePath("../../move_right/keyboard")
+focus_neighbour_right = NodePath("../joy_button")
+focus_neighbour_bottom = NodePath("../../rotate_left/keyboard")
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
 custom_fonts/font = SubResource( 4 )
@@ -346,6 +410,9 @@ margin_top = -14.0
 margin_right = 1402.0
 margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../keyboard")
+focus_neighbour_top = NodePath("../../move_right/joy_button")
+focus_neighbour_bottom = NodePath("../../rotate_left/joy_button")
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
 icon = ExtResource( 7 )
@@ -366,6 +433,9 @@ margin_top = -17.0
 margin_right = 1107.0
 margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_top = NodePath("../../move_down/keyboard")
+focus_neighbour_right = NodePath("../joy_button")
+focus_neighbour_bottom = NodePath("../../rotate_right/keyboard")
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
 custom_fonts/font = SubResource( 4 )
@@ -381,6 +451,9 @@ margin_top = -14.0
 margin_right = 1402.0
 margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../keyboard")
+focus_neighbour_top = NodePath("../../move_down/joy_button")
+focus_neighbour_bottom = NodePath("../../rotate_right/joy_button")
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
 icon = ExtResource( 7 )
@@ -401,6 +474,9 @@ margin_top = -17.0
 margin_right = 1107.0
 margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_top = NodePath("../../rotate_left/keyboard")
+focus_neighbour_right = NodePath("../joy_button")
+focus_neighbour_bottom = NodePath("../../drop/keyboard")
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
 custom_fonts/font = SubResource( 4 )
@@ -416,6 +492,9 @@ margin_top = -14.0
 margin_right = 1402.0
 margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../keyboard")
+focus_neighbour_top = NodePath("../../rotate_left/joy_button")
+focus_neighbour_bottom = NodePath("../../drop/joy_button")
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
 icon = ExtResource( 7 )
@@ -436,6 +515,9 @@ margin_top = -17.0
 margin_right = 1107.0
 margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_top = NodePath("../../rotate_right/keyboard")
+focus_neighbour_right = NodePath("../joy_button")
+focus_neighbour_bottom = NodePath("../../hold/keyboard")
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
 custom_fonts/font = SubResource( 4 )
@@ -451,6 +533,9 @@ margin_top = -14.0
 margin_right = 1402.0
 margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../keyboard")
+focus_neighbour_top = NodePath("../../rotate_right/joy_button")
+focus_neighbour_bottom = NodePath("../../hold/joy_button")
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
 icon = ExtResource( 7 )
@@ -471,6 +556,8 @@ margin_top = -17.0
 margin_right = 1107.0
 margin_bottom = 117.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_top = NodePath("../../drop/keyboard")
+focus_neighbour_right = NodePath("../joy_button")
 custom_colors/font_color = Color( 0.00784314, 0.976471, 1, 1 )
 custom_constants/hseparation = 0
 custom_fonts/font = SubResource( 4 )
@@ -486,6 +573,8 @@ margin_top = -14.0
 margin_right = 1402.0
 margin_bottom = 120.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../keyboard")
+focus_neighbour_top = NodePath("../../drop/joy_button")
 custom_fonts/font = SubResource( 1 )
 custom_styles/focus = ExtResource( 9 )
 icon = ExtResource( 7 )
@@ -504,8 +593,8 @@ color = Color( 0, 0, 0, 0.858824 )
 [node name="label" type="Label" parent="ControlsWaitingInputPopup"]
 margin_left = 2.0
 margin_top = 6.0
-margin_right = 502.0
-margin_bottom = 298.0
+margin_right = 1041.0
+margin_bottom = 97.0
 custom_fonts/font = SubResource( 1 )
 text = "Press any
 button"
@@ -514,6 +603,7 @@ valign = 1
 
 [connection signal="pressed" from="MainMenu/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="pressed" from="MainMenu/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="MainMenu/Credits" to="." method="_on_Credits_pressed"]
 [connection signal="pressed" from="MainMenu/Exit" to="." method="_on_Exit_pressed"]
 [connection signal="pressed" from="SettingsMenu/Back" to="." method="_on_Back_pressed"]
 [connection signal="pressed" from="SettingsMenu/Controls" to="." method="_on_Controls_pressed"]
@@ -527,6 +617,7 @@ valign = 1
 [connection signal="toggled" from="SettingsMenu/fullscreen/CheckBox" to="." method="_on_CheckBox_toggled"]
 [connection signal="gui_input" from="SettingsMenu/show_ghost" to="." method="_on_menu_option_gui_input"]
 [connection signal="toggled" from="SettingsMenu/show_ghost/CheckBox" to="." method="_on_CheckBox_toggled"]
+[connection signal="pressed" from="CreditsMenu/Back" to="." method="_on_Back_pressed"]
 [connection signal="pressed" from="ControlsMenu/Back" to="." method="_on_Back_pressed"]
 [connection signal="gui_input" from="ControlsMenu/Inputs/move_left/keyboard" to="." method="_on_controls_input"]
 [connection signal="pressed" from="ControlsMenu/Inputs/move_left/keyboard" to="." method="_on_keyboard_bind_pressed"]

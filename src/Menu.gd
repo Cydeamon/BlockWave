@@ -212,3 +212,12 @@ func _on_menu_option_mouse_entered(obj):
 
 func _on_ProgressBar_value_changed(object, value):
 	emit_signal("value_changed", active_menu.get_focus_owner(), value)
+
+
+func _on_Credits_pressed():	
+	active_menu_tree.push_front(active_menu)
+	active_menu.hide()
+	active_menu = $CreditsMenu
+	$CreditsMenu.show()
+	activate_first()
+

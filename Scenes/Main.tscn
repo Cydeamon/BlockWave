@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://assets/sounds/gameplay_music.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/GameFieldCells.tscn" type="PackedScene" id=2]
@@ -35,7 +35,6 @@
 [ext_resource path="res://assets/glow.png" type="Texture" id=33]
 [ext_resource path="res://assets/next.png" type="Texture" id=34]
 [ext_resource path="res://assets/levelup.png" type="Texture" id=35]
-[ext_resource path="res://Menu.tres" type="Theme" id=36]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -89,6 +88,7 @@ script = ExtResource( 4 )
 
 [node name="bg_animation" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
+frame = 1
 playing = true
 centered = false
 
@@ -175,14 +175,6 @@ Level: 1"
 [node name="bg_menu" type="Sprite" parent="Menu"]
 texture = ExtResource( 7 )
 centered = false
-
-[node name="Label" type="Label" parent="Menu/bg_menu"]
-margin_left = 84.0
-margin_top = 985.0
-margin_right = 1005.0
-margin_bottom = 1094.0
-theme = ExtResource( 36 )
-text = "CYDEAMON    2023"
 
 [node name="logo" type="Sprite" parent="Menu"]
 position = Vector2( 49, 33 )

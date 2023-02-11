@@ -226,7 +226,7 @@ func gameover():
 	$Menu/logo.visible = false
 	$Menu.visible = true
 	$Menu/bg_gameover.visible = true
-
+	clear_ghost()
 	$Menu/bg_gameover/statistics.text = $Game/UI/text_info.text
 
 func play_sound(sound):
@@ -572,7 +572,7 @@ func update_text_info():
 
 func _unhandled_input(event):
 	if !quick_drop_mode:
-		if menu_mode && event.is_action_pressed("ui_cancel") && game_was_started:
+		if menu_mode && (event.is_action_pressed("ui_cancel") || event.is_action_pressed("ui_go_back")) && game_was_started:
 			if !$Menu/menu_options._on_Back_pressed():
 				close_menu()
 				$Game.visible = true
